@@ -13,7 +13,7 @@ Orbit UI needs **Tailwind CSS v4**. If your project does not have Tailwind yet, 
 ### Install the package
 
 ```package-install
-@orbitui/ui
+@orbitdesign/ui
 ```
 
 </Step>
@@ -26,7 +26,7 @@ Add one line to the CSS file where you import Tailwind:
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-@import "@orbitui/ui";
+@import "@orbitdesign/ui";
 ```
 
 </Step>
@@ -44,7 +44,7 @@ With plain classes:
 Or with React:
 
 ```tsx
-import { Button } from "@orbitui/ui/react";
+import { Button } from "@orbitdesign/ui/react";
 
 export default function Page() {
   return <Button color="primary">Hello</Button>;
@@ -64,7 +64,7 @@ Works with the App Router and the Pages Router. The React components are marked 
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-@import "@orbitui/ui";
+@import "@orbitdesign/ui";
 ```
 
 </Tab>
@@ -74,7 +74,7 @@ Use the official `@tailwindcss/vite` plugin, then import Orbit UI in your main C
 
 ```css title="src/index.css"
 @import "tailwindcss";
-@import "@orbitui/ui";
+@import "@orbitdesign/ui";
 ```
 
 </Tab>
@@ -91,7 +91,7 @@ The main import includes the themes and all components. Tailwind only outputs th
 
 ```css
 @import "tailwindcss";
-@import "@orbitui/ui/themes";
-@import "@orbitui/ui/components/button";
-@import "@orbitui/ui/components/card";
+@import "@orbitdesign/ui/themes";
+@import "@orbitdesign/ui/components/button";
+@import "@orbitdesign/ui/components/card";
 ```

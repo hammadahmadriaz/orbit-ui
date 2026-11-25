@@ -14,7 +14,7 @@
     "fumadocs-mdx": "15.6.4",
     "fumadocs-ui": "16.19.7",
     "geist": "^1.4.2",
-    "@orbitui/ui": "workspace:*",
+    "@orbitdesign/ui": "workspace:*",
     "lucide-react": "^1.71.0",
     "next": "16.4.6",
     "react": "^19.3.1",

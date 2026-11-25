@@ -137,7 +137,7 @@ description: TODO one sentence about what ${Title} is for.
 <Tab value="React">
 
 \`\`\`tsx
-import { ${Pascal} } from "@orbitui/ui/react";
+import { ${Pascal} } from "@orbitdesign/ui/react";
 
 <${Pascal}>Default</${Pascal}>
 <${Pascal} color="primary">Primary</${Pascal}>

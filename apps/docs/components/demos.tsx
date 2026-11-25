@@ -11,7 +11,7 @@ import {
   ModalDescription,
   ModalHeader,
   ModalTitle,
-} from '@orbitui/ui/react';
+} from '@orbitdesign/ui/react';
 
 /* Demos that need state live here, since MDX content is server rendered. */
 

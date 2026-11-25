@@ -10,12 +10,12 @@ pnpm dev        # builds the library in watch mode and starts the docs on http:/
 ## Repo layout
 
 ```
-packages/ui/                 the npm package "@orbitui/ui"
+packages/ui/                 the npm package "@orbitdesign/ui"
   src/css/themes.css         color and radius tokens, all themes
   src/css/components/*.css   one file per component (Tailwind @utility)
   src/css/index.css          entry point, imports everything
   src/react/components/*.tsx React wrappers
-  src/react/index.ts         React entry point ("@orbitui/ui/react")
+  src/react/index.ts         React entry point ("@orbitdesign/ui/react")
   test/                      Vitest + Testing Library
 apps/docs/                   documentation site (Next.js + Fumadocs)
   content/docs/              MDX pages, one per component

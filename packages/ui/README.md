@@ -7,7 +7,7 @@ A Tailwind CSS v4 component library. Semantic classes that work in any framework
 ```
 
 ```tsx
-import { Button } from "@orbitui/ui/react";
+import { Button } from "@orbitdesign/ui/react";
 
 <Button color="primary">Save</Button>
 ```
@@ -15,17 +15,17 @@ import { Button } from "@orbitui/ui/react";
 ## Install
 
 ```bash
-npm i @orbitui/ui
+npm i @orbitdesign/ui
 ```
 
 Add it to the CSS file where you import Tailwind:
 
 ```css
 @import "tailwindcss";
-@import "@orbitui/ui";
+@import "@orbitdesign/ui";
 ```
 
-That is all. Use the classes anywhere, or import React components from `@orbitui/ui/react`.
+That is all. Use the classes anywhere, or import React components from `@orbitdesign/ui/react`.
 
 ## Features
 

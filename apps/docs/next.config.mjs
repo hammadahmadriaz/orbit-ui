@@ -5,7 +5,7 @@ const withMDX = createMDX();
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
-  transpilePackages: ['@orbitui/ui'],
+  transpilePackages: ['@orbitdesign/ui'],
 };
 
 export default withMDX(config);

@@ -14,7 +14,7 @@ import {
   Field,
   Input,
   Toggle,
-} from '@orbitui/ui/react';
+} from '@orbitdesign/ui/react';
 import { CopyCommand } from './copy-command';
 
 const features = [
@@ -75,7 +75,7 @@ export default function HomePage() {
               Browse components
             </Link>
           </div>
-          <CopyCommand command="npm i @orbitui/ui" />
+          <CopyCommand command="npm i @orbitdesign/ui" />
         </div>
       </section>
 
