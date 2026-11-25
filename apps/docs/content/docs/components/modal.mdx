@@ -1,0 +1,114 @@
+---
+title: Modal
+description: A dialog on top of the page, built on the native dialog element.
+---
+
+<Preview>
+  <ModalDemo />
+  <ModalFormDemo />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+"use client";
+
+import { useState } from "react";
+import {
+  Button,
+  Modal,
+  ModalActions,
+  ModalBody,
+  ModalDescription,
+  ModalHeader,
+  ModalTitle,
+} from "orbitui/react";
+
+export function DeleteProject() {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <Button color="primary" onClick={() => setOpen(true)}>Open modal</Button>
+
+      <Modal open={open} onClose={() => setOpen(false)}>
+        <ModalHeader>
+          <ModalTitle>Delete project?</ModalTitle>
+          <ModalDescription>This removes the project and all of its files.</ModalDescription>
+        </ModalHeader>
+        <ModalBody>You can restore it from the trash for 30 days.</ModalBody>
+        <ModalActions>
+          <Button variant="ghost" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button color="error" onClick={() => setOpen(false)}>Delete</Button>
+        </ModalActions>
+      </Modal>
+    </>
+  );
+}
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<button class="btn btn-primary" onclick="demo.showModal()">Open modal</button>
+
+<dialog id="demo" class="modal">
+  <div class="modal-header">
+    <h2 class="modal-title">Delete project?</h2>
+    <p class="modal-description">This removes the project and all of its files.</p>
+  </div>
+  <div class="modal-body">You can restore it from the trash for 30 days.</div>
+  <form method="dialog" class="modal-actions">
+    <button class="btn btn-ghost">Cancel</button>
+    <button class="btn btn-error">Delete</button>
+  </form>
+</dialog>
+```
+
+A `<form method="dialog">` closes the dialog when any of its buttons is clicked, with no JavaScript.
+
+</Tab>
+</Tabs>
+
+## What the browser handles for you
+
+Because the modal is a real `<dialog>` opened with `showModal()`:
+
+- Focus moves into the modal and is trapped there
+- <kbd>Esc</kbd> closes it (the React component calls `onClose`)
+- It renders in the top layer, so no z-index problems
+- Focus goes back to the trigger when it closes
+
+## Sizes
+
+```tsx
+<Modal size="sm" ... />   // 24rem
+<Modal size="md" ... />   // 32rem, default
+<Modal size="lg" ... />   // 48rem
+<Modal size="full" ... /> // full width
+```
+
+## Props
+
+<TypeTable
+  type={{
+    open: { type: "boolean", required: true },
+    onClose: { type: "() => void", required: true, description: "Called on Escape, backdrop click and the close button." },
+    size: { type: '"sm" | "md" | "lg" | "full"', default: '"md"' },
+    closeOnBackdrop: { type: "boolean", default: "true" },
+    showClose: { type: "boolean", default: "true", description: "Show the X button in the corner." },
+  }}
+/>
+
+Parts: `ModalHeader`, `ModalTitle`, `ModalDescription`, `ModalBody`, `ModalActions`.
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `modal` | Put on the `<dialog>` element |
+| `modal-header` `modal-title` `modal-description` `modal-body` `modal-actions` | Parts |
+| `modal-close` | Positions a close button in the corner |
+| `modal-sm` `modal-lg` `modal-full` | Width |

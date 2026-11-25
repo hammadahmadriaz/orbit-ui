@@ -1,0 +1,40 @@
+/*
+ * Spinner
+ * Classes: spinner
+ * Sizes:   spinner-xs spinner-sm spinner-md spinner-lg
+ * Color:   uses currentColor, so text-primary etc. work
+ */
+
+@keyframes oui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility spinner {
+  display: inline-block;
+  flex-shrink: 0;
+  width: var(--spinner-size, 1.25rem);
+  height: var(--spinner-size, 1.25rem);
+  border: calc(var(--spinner-size, 1.25rem) * 0.12) solid currentColor;
+  border-right-color: transparent;
+  border-radius: 9999px;
+  animation: oui-spin 0.7s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation-duration: 1.6s;
+  }
+}
+
+@utility spinner-xs {
+  --spinner-size: 0.875rem;
+}
+@utility spinner-sm {
+  --spinner-size: 1rem;
+}
+@utility spinner-md {
+  --spinner-size: 1.25rem;
+}
+@utility spinner-lg {
+  --spinner-size: 2rem;
+}

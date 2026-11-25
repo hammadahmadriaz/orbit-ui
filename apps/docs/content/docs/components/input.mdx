@@ -1,0 +1,161 @@
+---
+title: Input
+description: Text inputs, textareas and selects, plus a Field wrapper for labels and errors.
+---
+
+<Preview align="stack">
+  <Field label="Email" hint="We will never share your email.">
+    <Input type="email" placeholder="you@example.com" />
+  </Field>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Field, Input } from "orbitui/react";
+
+<Field label="Email" hint="We will never share your email.">
+  <Input type="email" placeholder="you@example.com" />
+</Field>
+```
+
+`Field` creates the ids and connects the label, hint and error to the input with `aria-describedby` and `aria-invalid`.
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div class="field">
+  <label class="field-label" for="email">Email</label>
+  <input id="email" type="email" class="input" placeholder="you@example.com" aria-describedby="email-hint" />
+  <p id="email-hint" class="field-hint">We will never share your email.</p>
+</div>
+```
+
+</Tab>
+</Tabs>
+
+## Error state
+
+<Preview align="stack">
+  <Field label="Username" error="This username is already taken.">
+    <Input defaultValue="hammad" />
+  </Field>
+</Preview>
+
+```tsx
+<Field label="Username" error="This username is already taken.">
+  <Input defaultValue="hammad" />
+</Field>
+```
+
+## Colors and sizes
+
+<Preview align="stack">
+  <Input color="primary" placeholder="Primary" />
+  <Input color="success" placeholder="Success" />
+  <Input inputSize="sm" placeholder="Small" />
+  <Input inputSize="lg" placeholder="Large" />
+  <Input ghost placeholder="Ghost" />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Input color="primary" placeholder="Primary" />
+<Input inputSize="sm" placeholder="Small" />
+<Input ghost placeholder="Ghost" />
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<input class="input input-primary" placeholder="Primary" />
+<input class="input input-sm" placeholder="Small" />
+<input class="input input-ghost" placeholder="Ghost" />
+```
+
+</Tab>
+</Tabs>
+
+## Textarea and Select
+
+<Preview align="stack">
+  <Field label="Country">
+    <Select defaultValue="at">
+      <option value="at">Austria</option>
+      <option value="de">Germany</option>
+      <option value="pk">Pakistan</option>
+    </Select>
+  </Field>
+  <Field label="Message">
+    <Textarea placeholder="Write something..." />
+  </Field>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Field, Select, Textarea } from "orbitui/react";
+
+<Field label="Country">
+  <Select defaultValue="at">
+    <option value="at">Austria</option>
+    <option value="de">Germany</option>
+  </Select>
+</Field>
+<Field label="Message">
+  <Textarea placeholder="Write something..." />
+</Field>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<select class="select">
+  <option>Austria</option>
+  <option>Germany</option>
+</select>
+<textarea class="textarea" placeholder="Write something..."></textarea>
+```
+
+</Tab>
+</Tabs>
+
+## Props
+
+### Input / Select
+
+<TypeTable
+  type={{
+    color: { type: '"primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error"', description: "Border and focus ring color." },
+    inputSize: { type: '"sm" | "md" | "lg"', default: '"md"', description: "Named inputSize because size is a native input attribute." },
+    ghost: { type: "boolean", description: "No border or background until focused." },
+  }}
+/>
+
+### Field
+
+<TypeTable
+  type={{
+    label: { type: "ReactNode" },
+    hint: { type: "ReactNode", description: "Helper text. Hidden while there is an error." },
+    error: { type: "ReactNode", description: "Error message. Also sets aria-invalid on the control." },
+    htmlFor: { type: "string", description: "Id for the control. Generated when omitted." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `input` `textarea` `select` | Controls |
+| `input-primary` ... `input-error` | Color (works on all three) |
+| `input-sm` `input-md` `input-lg` | Size |
+| `input-ghost` | Borderless style |
+| `field` `field-label` `field-hint` `field-error` | Field layout |

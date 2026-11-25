@@ -1,0 +1,97 @@
+---
+title: Installation
+description: Add Orbit UI to any project that uses Tailwind CSS v4.
+icon: Download
+---
+
+Orbit UI needs **Tailwind CSS v4**. If your project does not have Tailwind yet, follow the [Tailwind installation guide](https://tailwindcss.com/docs/installation) for your framework first.
+
+<Steps>
+
+<Step>
+
+### Install the package
+
+```package-install
+orbitui
+```
+
+</Step>
+
+<Step>
+
+### Import it in your CSS
+
+Add one line to the CSS file where you import Tailwind:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "orbitui";
+```
+
+</Step>
+
+<Step>
+
+### Use the components
+
+With plain classes:
+
+```html
+<button class="btn btn-primary">Hello</button>
+```
+
+Or with React:
+
+```tsx
+import { Button } from "orbitui/react";
+
+export default function Page() {
+  return <Button color="primary">Hello</Button>;
+}
+```
+
+</Step>
+
+</Steps>
+
+## Framework notes
+
+<Tabs items={["Next.js", "Vite", "Other"]}>
+<Tab value="Next.js">
+
+Works with the App Router and the Pages Router. The React components are marked with `"use client"`, so you can use them directly inside Server Components.
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "orbitui";
+```
+
+</Tab>
+<Tab value="Vite">
+
+Use the official `@tailwindcss/vite` plugin, then import Orbit UI in your main CSS file:
+
+```css title="src/index.css"
+@import "tailwindcss";
+@import "orbitui";
+```
+
+</Tab>
+<Tab value="Other">
+
+Any setup that runs Tailwind CSS v4 works, including the Tailwind CLI, PostCSS, Astro, SvelteKit, Nuxt and Laravel. Only the CSS import is needed. The React package is optional.
+
+</Tab>
+</Tabs>
+
+## Import only what you need
+
+The main import includes the themes and all components. Tailwind only outputs the classes you use, so this is already small. If you still want full control, import pieces directly:
+
+```css
+@import "tailwindcss";
+@import "orbitui/themes";
+@import "orbitui/components/button";
+@import "orbitui/components/card";
+```

@@ -1,0 +1,86 @@
+{
+  "name": "orbitui",
+  "version": "0.1.0",
+  "description": "A Tailwind CSS v4 component library with semantic classes, themes and React components.",
+  "license": "MIT",
+  "author": "Hammad Ahmed Riaz (https://hammadriaz.dev)",
+  "keywords": [
+    "tailwindcss",
+    "tailwind",
+    "ui",
+    "components",
+    "react",
+    "themes",
+    "css"
+  ],
+  "type": "module",
+  "sideEffects": [
+    "*.css"
+  ],
+  "style": "./src/css/index.css",
+  "main": "./dist/react/index.cjs",
+  "module": "./dist/react/index.js",
+  "types": "./dist/react/index.d.ts",
+  "exports": {
+    ".": {
+      "style": "./src/css/index.css",
+      "default": "./src/css/index.css"
+    },
+    "./themes": "./src/css/themes.css",
+    "./components/*": "./src/css/components/*.css",
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.js",
+      "require": "./dist/react/index.cjs"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "src/css",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "tailwindcss": "^4.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "4",
+    "@testing-library/jest-dom": "^8.0.0",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.13",
+    "@types/react": "^19.3.2",
+    "@types/react-dom": "^19.3.0",
+    "jsdom": "^31.0.1",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "tailwindcss": "4",
+    "tsup": "^9.0.0",
+    "typescript": "5",
+    "vitest": "^5.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hammadahmadriaz/orbit-ui.git",
+    "directory": "packages/ui"
+  },
+  "homepage": "https://orbitui.dev"
+}

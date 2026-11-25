@@ -1,0 +1,83 @@
+---
+title: Usage
+description: How class names and React components fit together.
+icon: Code
+---
+
+## The class pattern
+
+Every component has one **base class** and optional **modifier classes**. Modifiers are grouped by what they change:
+
+| Group | Example | What it does |
+| --- | --- | --- |
+| Base | `btn` | Structure and default look |
+| Color | `btn-primary` | Picks a theme color |
+| Variant | `btn-outline` | Changes the style (outline, soft, ghost) |
+| Size | `btn-lg` | Changes the size |
+
+You can combine one from each group in any order:
+
+<Preview>
+  <button className="btn btn-primary">btn btn-primary</button>
+  <button className="btn btn-primary btn-outline">+ btn-outline</button>
+  <button className="btn btn-primary btn-outline btn-lg">+ btn-lg</button>
+</Preview>
+
+```html
+<button class="btn btn-primary btn-outline btn-lg">Button</button>
+```
+
+## Mixing with Tailwind utilities
+
+Orbit UI classes are real Tailwind utilities, so variants work on them too, and you can add any normal utility next to them:
+
+```html
+<!-- Full width on mobile, normal from md up -->
+<button class="btn btn-primary btn-block md:w-auto">Save</button>
+
+<!-- Change style on hover -->
+<button class="btn btn-primary btn-soft hover:btn-outline">Hover me</button>
+
+<!-- One off tweak -->
+<div class="card shadow-xl">...</div>
+```
+
+## React components
+
+The React components are thin, typed wrappers around the same classes. Props map to modifiers:
+
+```tsx
+import { Button } from "orbitui/react";
+
+<Button color="primary" variant="outline" size="lg">Button</Button>
+// renders: <button class="btn btn-primary btn-outline btn-lg">
+```
+
+Every component:
+
+- forwards its `ref`
+- accepts `className`, which is merged with the generated classes
+- passes any other prop to the underlying element (`onClick`, `aria-*`, `data-*` and so on)
+
+### Rendering as another element
+
+`Button` supports `asChild`, which applies the button styles to its child. This is handy for links:
+
+```tsx
+import Link from "next/link";
+import { Button } from "orbitui/react";
+
+<Button asChild color="primary">
+  <Link href="/pricing">See pricing</Link>
+</Button>
+```
+
+### The `cx` helper
+
+The package also exports the small class name helper used internally:
+
+```tsx
+import { cx } from "orbitui/react";
+
+<div className={cx("card", isActive && "ring-2 ring-primary")} />
+```

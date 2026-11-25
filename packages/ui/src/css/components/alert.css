@@ -1,0 +1,78 @@
+/*
+ * Alert
+ * Classes: alert alert-icon alert-title alert-description
+ * Colors:  alert-info alert-success alert-warning alert-error
+ * Styles:  alert-solid alert-outline (default is soft)
+ */
+
+@utility alert {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  column-gap: 0.75rem;
+  row-gap: 0.25rem;
+  width: 100%;
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  border: var(--oui-border) solid
+    var(
+      --alert-border,
+      color-mix(in oklch, var(--alert-color, var(--color-base-content)) 25%, transparent)
+    );
+  border-radius: var(--radius-box);
+  background-color: var(
+    --alert-bg,
+    color-mix(in oklch, var(--alert-color, var(--color-base-content)) 9%, var(--color-base-100))
+  );
+  color: var(--alert-text, var(--color-base-content));
+
+  &:not(:has(> .alert-icon)) {
+    grid-template-columns: 1fr;
+  }
+}
+
+@utility alert-icon {
+  grid-row: span 2;
+  display: flex;
+  margin-top: 0.125rem;
+  color: var(--alert-icon, var(--alert-color, currentColor));
+  & svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+}
+@utility alert-title {
+  font-weight: 600;
+}
+@utility alert-description {
+  opacity: 0.85;
+}
+
+@utility alert-info {
+  --alert-color: var(--color-info);
+  --alert-fg: var(--color-info-content);
+}
+@utility alert-success {
+  --alert-color: var(--color-success);
+  --alert-fg: var(--color-success-content);
+}
+@utility alert-warning {
+  --alert-color: var(--color-warning);
+  --alert-fg: var(--color-warning-content);
+}
+@utility alert-error {
+  --alert-color: var(--color-error);
+  --alert-fg: var(--color-error-content);
+}
+
+@utility alert-solid {
+  --alert-bg: var(--alert-color, var(--color-neutral));
+  --alert-border: transparent;
+  --alert-text: var(--alert-fg, var(--color-neutral-content));
+  --alert-icon: currentColor;
+}
+@utility alert-outline {
+  --alert-bg: transparent;
+  --alert-border: var(--alert-color, var(--color-base-300));
+}

@@ -1,0 +1,202 @@
+---
+title: Button
+description: Trigger an action. Supports colors, variants, sizes, shapes and a loading state.
+---
+
+<Preview>
+  <Button>Default</Button>
+  <Button color="primary">Primary</Button>
+  <Button color="secondary">Secondary</Button>
+  <Button color="accent">Accent</Button>
+  <Button color="neutral">Neutral</Button>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Button } from "orbitui/react";
+
+<Button>Default</Button>
+<Button color="primary">Primary</Button>
+<Button color="secondary">Secondary</Button>
+<Button color="accent">Accent</Button>
+<Button color="neutral">Neutral</Button>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<button class="btn">Default</button>
+<button class="btn btn-primary">Primary</button>
+<button class="btn btn-secondary">Secondary</button>
+<button class="btn btn-accent">Accent</button>
+<button class="btn btn-neutral">Neutral</button>
+```
+
+</Tab>
+</Tabs>
+
+## Variants
+
+<Preview>
+  <Button color="primary">Solid</Button>
+  <Button color="primary" variant="outline">Outline</Button>
+  <Button color="primary" variant="soft">Soft</Button>
+  <Button color="primary" variant="ghost">Ghost</Button>
+  <Button color="primary" variant="link">Link</Button>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Button color="primary">Solid</Button>
+<Button color="primary" variant="outline">Outline</Button>
+<Button color="primary" variant="soft">Soft</Button>
+<Button color="primary" variant="ghost">Ghost</Button>
+<Button color="primary" variant="link">Link</Button>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<button class="btn btn-primary">Solid</button>
+<button class="btn btn-primary btn-outline">Outline</button>
+<button class="btn btn-primary btn-soft">Soft</button>
+<button class="btn btn-primary btn-ghost">Ghost</button>
+<button class="btn btn-primary btn-link">Link</button>
+```
+
+</Tab>
+</Tabs>
+
+## Status colors
+
+<Preview>
+  <Button color="info">Info</Button>
+  <Button color="success">Success</Button>
+  <Button color="warning">Warning</Button>
+  <Button color="error">Error</Button>
+  <Button color="error" variant="soft">Soft error</Button>
+</Preview>
+
+```tsx
+<Button color="info">Info</Button>
+<Button color="success">Success</Button>
+<Button color="warning">Warning</Button>
+<Button color="error">Error</Button>
+```
+
+## Sizes
+
+<Preview>
+  <Button size="xs">Extra small</Button>
+  <Button size="sm">Small</Button>
+  <Button size="md">Medium</Button>
+  <Button size="lg">Large</Button>
+  <Button size="xl">Extra large</Button>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Button size="xs">Extra small</Button>
+<Button size="sm">Small</Button>
+<Button size="md">Medium</Button>
+<Button size="lg">Large</Button>
+<Button size="xl">Extra large</Button>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<button class="btn btn-xs">Extra small</button>
+<button class="btn btn-sm">Small</button>
+<button class="btn btn-md">Medium</button>
+<button class="btn btn-lg">Large</button>
+<button class="btn btn-xl">Extra large</button>
+```
+
+</Tab>
+</Tabs>
+
+## Shapes and width
+
+<Preview>
+  <Button shape="square" aria-label="Add">+</Button>
+  <Button shape="circle" color="primary" aria-label="Add">+</Button>
+  <div className="w-full max-w-xs"><Button block color="neutral">Block button</Button></div>
+</Preview>
+
+```tsx
+<Button shape="square" aria-label="Add">+</Button>
+<Button shape="circle" color="primary" aria-label="Add">+</Button>
+<Button block color="neutral">Block button</Button>
+```
+
+## Loading and disabled
+
+<Preview>
+  <LoadingButtonDemo />
+  <Button loading>Loading</Button>
+  <Button disabled>Disabled</Button>
+</Preview>
+
+```tsx
+<Button loading>Loading</Button>
+<Button disabled>Disabled</Button>
+```
+
+`loading` disables the button, shows a spinner and sets `aria-busy`.
+
+## As a link
+
+```tsx
+import Link from "next/link";
+
+<Button asChild color="primary">
+  <Link href="/signup">Sign up</Link>
+</Button>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    color: { type: '"primary" | "secondary" | "accent" | "neutral" | "info" | "success" | "warning" | "error"', description: "Theme color." },
+    variant: { type: '"solid" | "outline" | "soft" | "ghost" | "link"', default: '"solid"', description: "Visual style." },
+    size: { type: '"xs" | "sm" | "md" | "lg" | "xl"', default: '"md"' },
+    shape: { type: '"default" | "square" | "circle"', default: '"default"', description: "Square and circle are for icon only buttons." },
+    block: { type: "boolean", description: "Full width." },
+    loading: { type: "boolean", description: "Shows a spinner and disables the button." },
+    asChild: { type: "boolean", description: "Apply the styles to the child element instead of rendering a button." },
+  }}
+/>
+
+Also accepts every native `<button>` attribute.
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `btn` | Base class |
+| `btn-primary` ... `btn-error` | Color |
+| `btn-outline` `btn-soft` `btn-ghost` `btn-link` | Variant |
+| `btn-xs` `btn-sm` `btn-md` `btn-lg` `btn-xl` | Size |
+| `btn-square` `btn-circle` | Equal width and height |
+| `btn-block` `btn-wide` | Width |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--btn-h` | `2.5rem` | Height |
+| `--btn-px` | `1rem` | Horizontal padding |
+| `--btn-fs` | `0.875rem` | Font size |
+| `--btn-color` | none | Main color, set by color classes |
+| `--btn-fg` | none | Text color on solid buttons |

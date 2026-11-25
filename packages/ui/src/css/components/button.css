@@ -1,0 +1,175 @@
+/*
+ * Button
+ * Classes: btn
+ * Colors:  btn-primary btn-secondary btn-accent btn-neutral btn-info btn-success btn-warning btn-error
+ * Styles:  btn-outline btn-soft btn-ghost btn-link
+ * Sizes:   btn-xs btn-sm btn-md btn-lg btn-xl
+ * Shape:   btn-square btn-circle btn-block btn-wide
+ *
+ * Pattern: the base class only READS private variables (with fallbacks) and
+ * modifier classes only SET them. That way any color, style and size combine
+ * without fighting over specificity or class order.
+ */
+
+@utility btn {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: var(--btn-h, 2.5rem);
+  padding-inline: var(--btn-px, 1rem);
+  font-size: var(--btn-fs, 0.875rem);
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  user-select: none;
+  cursor: pointer;
+  border: var(--oui-border) solid
+    var(--btn-border-color, var(--btn-color, var(--color-base-300)));
+  border-radius: var(--radius-field);
+  background-color: var(--btn-bg, var(--btn-color, var(--color-base-200)));
+  color: var(--btn-text, var(--btn-fg, var(--color-base-content)));
+  transition:
+    background-color 150ms,
+    border-color 150ms,
+    color 150ms,
+    box-shadow 150ms,
+    transform 100ms;
+
+  &:hover {
+    background-color: color-mix(
+      in oklch,
+      var(--btn-bg, var(--btn-color, var(--color-base-200))),
+      var(--color-base-content) 10%
+    );
+  }
+  &:active {
+    transform: scale(0.97);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--btn-color, var(--color-base-content));
+    outline-offset: 2px;
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  & svg {
+    width: 1.15em;
+    height: 1.15em;
+  }
+}
+
+/* Colors */
+@utility btn-primary {
+  --btn-color: var(--color-primary);
+  --btn-fg: var(--color-primary-content);
+}
+@utility btn-secondary {
+  --btn-color: var(--color-secondary);
+  --btn-fg: var(--color-secondary-content);
+}
+@utility btn-accent {
+  --btn-color: var(--color-accent);
+  --btn-fg: var(--color-accent-content);
+}
+@utility btn-neutral {
+  --btn-color: var(--color-neutral);
+  --btn-fg: var(--color-neutral-content);
+}
+@utility btn-info {
+  --btn-color: var(--color-info);
+  --btn-fg: var(--color-info-content);
+}
+@utility btn-success {
+  --btn-color: var(--color-success);
+  --btn-fg: var(--color-success-content);
+}
+@utility btn-warning {
+  --btn-color: var(--color-warning);
+  --btn-fg: var(--color-warning-content);
+}
+@utility btn-error {
+  --btn-color: var(--color-error);
+  --btn-fg: var(--color-error-content);
+}
+
+/* Styles */
+@utility btn-outline {
+  --btn-bg: transparent;
+  --btn-text: var(--btn-color, var(--color-base-content));
+  &:hover {
+    --btn-bg: var(--btn-color, var(--color-base-200));
+    --btn-text: var(--btn-fg, var(--color-base-content));
+  }
+}
+@utility btn-soft {
+  --btn-bg: color-mix(in oklch, var(--btn-color, var(--color-base-content)) 14%, transparent);
+  --btn-border-color: transparent;
+  --btn-text: var(--btn-color, var(--color-base-content));
+}
+@utility btn-ghost {
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-text: var(--btn-color, var(--color-base-content));
+}
+@utility btn-link {
+  --btn-bg: transparent;
+  --btn-border-color: transparent;
+  --btn-text: var(--btn-color, var(--color-primary));
+  --btn-px: 0.25rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  &:hover {
+    background-color: transparent;
+    text-decoration-thickness: 2px;
+  }
+}
+
+/* Sizes */
+@utility btn-xs {
+  --btn-h: 1.5rem;
+  --btn-px: 0.5rem;
+  --btn-fs: 0.6875rem;
+}
+@utility btn-sm {
+  --btn-h: 2rem;
+  --btn-px: 0.75rem;
+  --btn-fs: 0.8125rem;
+}
+@utility btn-md {
+  --btn-h: 2.5rem;
+  --btn-px: 1rem;
+  --btn-fs: 0.875rem;
+}
+@utility btn-lg {
+  --btn-h: 3rem;
+  --btn-px: 1.25rem;
+  --btn-fs: 1rem;
+}
+@utility btn-xl {
+  --btn-h: 3.5rem;
+  --btn-px: 1.5rem;
+  --btn-fs: 1.125rem;
+}
+
+/* Shapes */
+@utility btn-square {
+  --btn-px: 0;
+  width: var(--btn-h, 2.5rem);
+}
+@utility btn-circle {
+  --btn-px: 0;
+  width: var(--btn-h, 2.5rem);
+  border-radius: 9999px;
+}
+@utility btn-block {
+  width: 100%;
+}
+@utility btn-wide {
+  min-width: 16rem;
+}

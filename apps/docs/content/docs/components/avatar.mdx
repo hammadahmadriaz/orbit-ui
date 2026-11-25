@@ -1,0 +1,91 @@
+---
+title: Avatar
+description: A user image with an initials fallback.
+---
+
+<Preview>
+  <Avatar name="Hammad Riaz" />
+  <Avatar name="Sara Khan" className="bg-primary text-primary-content" />
+  <Avatar name="Lukas Bauer" className="bg-accent text-accent-content" />
+  <Avatar name="Broken Image" src="/does-not-exist.png" />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Avatar } from "orbitui/react";
+
+<Avatar src="/me.jpg" name="Hammad Riaz" />
+<Avatar name="Sara Khan" className="bg-primary text-primary-content" />
+```
+
+If there is no `src`, or the image fails to load, the avatar shows initials from `name`.
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<span class="avatar"><img src="/me.jpg" alt="Hammad Riaz" /></span>
+<span class="avatar bg-primary text-primary-content">SK</span>
+```
+
+</Tab>
+</Tabs>
+
+## Sizes and shape
+
+<Preview>
+  <Avatar size="xs" name="A B" />
+  <Avatar size="sm" name="A B" />
+  <Avatar size="md" name="A B" />
+  <Avatar size="lg" name="A B" />
+  <Avatar size="xl" name="A B" />
+  <Avatar size="lg" square name="Square" />
+</Preview>
+
+```tsx
+<Avatar size="xs" name="A B" />
+<Avatar size="xl" name="A B" />
+<Avatar size="lg" square name="Square" />
+```
+
+## Group
+
+<Preview>
+  <AvatarGroup>
+    <Avatar name="Hammad Riaz" />
+    <Avatar name="Sara Khan" className="bg-primary text-primary-content" />
+    <Avatar name="Lukas Bauer" className="bg-accent text-accent-content" />
+    <Avatar className="bg-base-300 text-base-content">+4</Avatar>
+  </AvatarGroup>
+</Preview>
+
+```tsx
+<AvatarGroup>
+  <Avatar name="Hammad Riaz" />
+  <Avatar name="Sara Khan" />
+  <Avatar>+4</Avatar>
+</AvatarGroup>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    src: { type: "string" },
+    alt: { type: "string", description: "Defaults to name." },
+    name: { type: "string", description: "Used for initials and as the accessible label." },
+    size: { type: '"xs" | "sm" | "md" | "lg" | "xl"', default: '"md"' },
+    square: { type: "boolean" },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `avatar` | Base class |
+| `avatar-xs` ... `avatar-xl` | Size |
+| `avatar-square` | Rounded square |
+| `avatar-group` | Overlapping stack |

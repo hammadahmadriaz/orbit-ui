@@ -1,0 +1,34 @@
+---
+title: Introduction
+description: A Tailwind CSS v4 component library with semantic classes, themes and typed React components.
+icon: BookOpen
+---
+
+Orbit UI gives you ready made components on top of Tailwind CSS v4. You can use them in two ways:
+
+- **CSS classes** like `btn btn-primary` that work in any framework: React, Vue, Svelte, Astro, Laravel Blade or plain HTML.
+- **React components** like `<Button color="primary">` with full TypeScript types, accessibility built in and no extra runtime dependencies.
+
+<Preview>
+  <Button color="primary">Get started</Button>
+  <Button variant="outline">Learn more</Button>
+  <Badge color="success" variant="soft">New</Badge>
+  <Toggle color="primary" defaultChecked aria-label="Demo toggle" />
+  <Avatar name="Hammad Riaz" />
+</Preview>
+
+## Why Orbit UI
+
+**Less class soup.** Instead of 15 utility classes on every button, you write `btn btn-primary`. You still have all of Tailwind for layout and one off tweaks.
+
+**Themes out of the box.** Every component reads a small set of semantic color tokens. Switch the whole UI with one attribute: `<html data-theme="dark">`.
+
+**Native first.** Modals use `<dialog>`, checkboxes and toggles are real `<input>` elements. You get keyboard support, focus handling and form integration from the browser.
+
+**Tiny.** The CSS only includes the classes you actually use, because Tailwind generates them on demand. The React package has zero dependencies.
+
+<Cards>
+  <DocsCard title="Installation" href="/docs/installation" description="Add Orbit UI to your project in two lines." />
+  <DocsCard title="Theming" href="/docs/theming" description="Use built-in themes or create your own." />
+  <DocsCard title="Components" href="/docs/components/button" description="Browse every component with live examples." />
+</Cards>

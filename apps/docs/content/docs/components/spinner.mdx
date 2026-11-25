@@ -1,0 +1,52 @@
+---
+title: Spinner
+description: An animated loading indicator.
+---
+
+<Preview>
+  <Spinner size="xs" />
+  <Spinner size="sm" />
+  <Spinner size="md" />
+  <Spinner size="lg" />
+  <Spinner size="lg" className="text-primary" />
+  <Spinner size="lg" className="text-success" />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Spinner } from "orbitui/react";
+
+<Spinner />
+<Spinner size="lg" className="text-primary" />
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<span class="spinner" role="status" aria-label="Loading"></span>
+<span class="spinner spinner-lg text-primary" role="status" aria-label="Loading"></span>
+```
+
+</Tab>
+</Tabs>
+
+The spinner uses `currentColor`, so any `text-*` class changes its color.
+
+## Props
+
+<TypeTable
+  type={{
+    size: { type: '"xs" | "sm" | "md" | "lg"', default: '"md"' },
+    label: { type: "string", default: '"Loading"', description: "Accessible label." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `spinner` | Base class |
+| `spinner-xs` `spinner-sm` `spinner-md` `spinner-lg` | Size |

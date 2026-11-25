@@ -1,0 +1,79 @@
+---
+title: Alert
+description: Show important messages and feedback.
+---
+
+<Preview align="stack">
+  <Alert status="info" title="New version available">Version 2.0 is out with a redesigned dashboard.</Alert>
+  <Alert status="success" title="Payment received">Your invoice has been paid.</Alert>
+  <Alert status="warning" title="Storage almost full">You have used 90% of your storage.</Alert>
+  <Alert status="error" title="Upload failed">The file is larger than 10 MB.</Alert>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Alert } from "orbitui/react";
+
+<Alert status="info" title="New version available">
+  Version 2.0 is out with a redesigned dashboard.
+</Alert>
+<Alert status="error" title="Upload failed">
+  The file is larger than 10 MB.
+</Alert>
+```
+
+Each status comes with a default icon. Pass `icon={false}` to hide it or your own element to replace it.
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div class="alert alert-info" role="status">
+  <span class="alert-icon"><svg>...</svg></span>
+  <div class="alert-title">New version available</div>
+  <div class="alert-description">Version 2.0 is out with a redesigned dashboard.</div>
+</div>
+```
+
+</Tab>
+</Tabs>
+
+## Variants
+
+<Preview align="stack">
+  <Alert status="success" title="Soft (default)">Subtle background.</Alert>
+  <Alert status="success" variant="solid" title="Solid">Strong emphasis.</Alert>
+  <Alert status="success" variant="outline" title="Outline">Border only.</Alert>
+</Preview>
+
+```tsx
+<Alert status="success">Soft (default)</Alert>
+<Alert status="success" variant="solid">Solid</Alert>
+<Alert status="success" variant="outline">Outline</Alert>
+```
+
+## Accessibility
+
+`error` and `warning` alerts use `role="alert"` so screen readers announce them immediately. `info` and `success` use `role="status"`, which is announced politely.
+
+## Props
+
+<TypeTable
+  type={{
+    status: { type: '"info" | "success" | "warning" | "error"' },
+    variant: { type: '"soft" | "solid" | "outline"', default: '"soft"' },
+    title: { type: "ReactNode" },
+    icon: { type: "ReactNode | false", description: "Custom icon, or false to hide." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `alert` | Base class |
+| `alert-info` `alert-success` `alert-warning` `alert-error` | Status |
+| `alert-solid` `alert-outline` | Variant (soft is the default) |
+| `alert-icon` `alert-title` `alert-description` | Parts |

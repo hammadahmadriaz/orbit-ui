@@ -1,0 +1,100 @@
+---
+title: Badge
+description: Small labels for status, counts and categories.
+---
+
+<Preview>
+  <Badge>Default</Badge>
+  <Badge color="primary">Primary</Badge>
+  <Badge color="secondary">Secondary</Badge>
+  <Badge color="accent">Accent</Badge>
+  <Badge color="neutral">Neutral</Badge>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Badge } from "orbitui/react";
+
+<Badge>Default</Badge>
+<Badge color="primary">Primary</Badge>
+<Badge color="secondary">Secondary</Badge>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<span class="badge">Default</span>
+<span class="badge badge-primary">Primary</span>
+<span class="badge badge-secondary">Secondary</span>
+```
+
+</Tab>
+</Tabs>
+
+## Variants
+
+<Preview>
+  <Badge color="success">Solid</Badge>
+  <Badge color="success" variant="soft">Soft</Badge>
+  <Badge color="success" variant="outline">Outline</Badge>
+  <Badge color="error" variant="soft">Failed</Badge>
+  <Badge color="warning" variant="soft">Pending</Badge>
+  <Badge color="info" variant="soft">Draft</Badge>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Badge color="success">Solid</Badge>
+<Badge color="success" variant="soft">Soft</Badge>
+<Badge color="success" variant="outline">Outline</Badge>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<span class="badge badge-success">Solid</span>
+<span class="badge badge-success badge-soft">Soft</span>
+<span class="badge badge-success badge-outline">Outline</span>
+```
+
+</Tab>
+</Tabs>
+
+## Sizes
+
+<Preview>
+  <Badge size="sm" color="primary">Small</Badge>
+  <Badge size="md" color="primary">Medium</Badge>
+  <Badge size="lg" color="primary">Large</Badge>
+</Preview>
+
+```tsx
+<Badge size="sm">Small</Badge>
+<Badge size="md">Medium</Badge>
+<Badge size="lg">Large</Badge>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    color: { type: '"primary" | "secondary" | "accent" | "neutral" | "info" | "success" | "warning" | "error"' },
+    variant: { type: '"solid" | "soft" | "outline"', default: '"solid"' },
+    size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `badge` | Base class |
+| `badge-primary` ... `badge-error` | Color |
+| `badge-soft` `badge-outline` | Variant |
+| `badge-sm` `badge-md` `badge-lg` | Size |

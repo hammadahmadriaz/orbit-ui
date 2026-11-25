@@ -1,0 +1,52 @@
+---
+title: Customization
+description: Change how components look without fighting the library.
+icon: SlidersHorizontal
+---
+
+There are three levels of customization, from quick to deep.
+
+## 1. Add Tailwind utilities
+
+The simplest option. Utilities always win over component classes because Tailwind outputs them later:
+
+```html
+<button class="btn btn-primary rounded-full px-8">Rounded</button>
+<div class="card shadow-2xl">...</div>
+```
+
+## 2. Override component variables
+
+Components read private CSS variables with fallbacks, so you can change one detail without rewriting the component. For example, the button reads `--btn-h` for its height:
+
+```html
+<button class="btn [--btn-h:3.25rem]">Taller button</button>
+```
+
+Or for every button in your app:
+
+```css
+@layer components {
+  .btn {
+    --btn-fs: 0.9375rem;
+  }
+}
+```
+
+Each component page lists the variables it reads.
+
+## 3. Add your own modifiers
+
+Write new modifiers the same way the library does, with `@utility`. Modifiers only set variables, so they combine with everything else:
+
+```css
+@utility btn-gradient {
+  --btn-border-color: transparent;
+  --btn-fg: white;
+  background-image: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+}
+```
+
+```html
+<button class="btn btn-gradient btn-lg">Gradient</button>
+```

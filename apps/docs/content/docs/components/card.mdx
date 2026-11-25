@@ -1,0 +1,112 @@
+---
+title: Card
+description: A container for grouping related content and actions.
+---
+
+<Preview>
+  <Card className="w-80">
+    <CardBody>
+      <CardTitle>Upgrade to Pro</CardTitle>
+      <CardDescription>Unlimited projects, custom domains and priority support for your whole team.</CardDescription>
+      <CardActions>
+        <Button variant="ghost">Later</Button>
+        <Button color="primary">Upgrade</Button>
+      </CardActions>
+    </CardBody>
+  </Card>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Button, Card, CardActions, CardBody, CardDescription, CardTitle } from "orbitui/react";
+
+<Card className="w-80">
+  <CardBody>
+    <CardTitle>Upgrade to Pro</CardTitle>
+    <CardDescription>Unlimited projects, custom domains and priority support.</CardDescription>
+    <CardActions>
+      <Button variant="ghost">Later</Button>
+      <Button color="primary">Upgrade</Button>
+    </CardActions>
+  </CardBody>
+</Card>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div class="card w-80">
+  <div class="card-body">
+    <h3 class="card-title">Upgrade to Pro</h3>
+    <p class="card-description">Unlimited projects, custom domains and priority support.</p>
+    <div class="card-actions">
+      <button class="btn btn-ghost">Later</button>
+      <button class="btn btn-primary">Upgrade</button>
+    </div>
+  </div>
+</div>
+```
+
+</Tab>
+</Tabs>
+
+## With media
+
+<Preview>
+  <Card className="w-72">
+    <div className="card-media h-36 bg-gradient-to-br from-primary to-secondary" />
+    <CardBody>
+      <CardTitle>Salzburg trip <Badge color="accent" variant="soft">New</Badge></CardTitle>
+      <CardDescription>Three days of old town walks, mountain views and coffee houses.</CardDescription>
+    </CardBody>
+  </Card>
+</Preview>
+
+```tsx
+<Card className="w-72">
+  <CardMedia src="/salzburg.jpg" alt="Salzburg old town" className="h-36" />
+  <CardBody>
+    <CardTitle>Salzburg trip <Badge color="accent" variant="soft">New</Badge></CardTitle>
+    <CardDescription>Three days of old town walks, mountain views and coffee houses.</CardDescription>
+  </CardBody>
+</Card>
+```
+
+## Compact and flat
+
+<Preview>
+  <Card compact className="w-56"><CardBody><CardTitle>Compact</CardTitle><CardDescription>Smaller padding.</CardDescription></CardBody></Card>
+  <Card flat className="w-56"><CardBody><CardTitle>Flat</CardTitle><CardDescription>No shadow.</CardDescription></CardBody></Card>
+</Preview>
+
+```tsx
+<Card compact>...</Card>
+<Card flat>...</Card>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    compact: { type: "boolean", description: "Smaller padding." },
+    flat: { type: "boolean", description: "Removes the shadow." },
+    side: { type: "boolean", description: "Media on the side instead of the top." },
+  }}
+/>
+
+Parts: `CardBody`, `CardTitle`, `CardDescription`, `CardActions`, `CardMedia`.
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `card` | Container |
+| `card-body` | Padded content area |
+| `card-title` | Heading |
+| `card-description` | Muted text |
+| `card-actions` | Row of buttons, aligned right |
+| `card-media` | Image or media |
+| `card-compact` `card-flat` `card-side` | Modifiers |

@@ -1,0 +1,108 @@
+---
+title: Checkbox and Toggle
+description: Styled native checkboxes and switches that work in any form.
+---
+
+<Preview>
+  <label className="flex items-center gap-2"><Checkbox defaultChecked /> Remember me</label>
+  <label className="flex items-center gap-2"><Checkbox indeterminate /> Some selected</label>
+  <label className="flex items-center gap-2"><Toggle defaultChecked /> Notifications</label>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Checkbox, Toggle } from "orbitui/react";
+
+<label className="flex items-center gap-2">
+  <Checkbox defaultChecked /> Remember me
+</label>
+<label className="flex items-center gap-2">
+  <Checkbox indeterminate /> Some selected
+</label>
+<label className="flex items-center gap-2">
+  <Toggle defaultChecked /> Notifications
+</label>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<label class="flex items-center gap-2">
+  <input type="checkbox" class="checkbox" checked /> Remember me
+</label>
+<label class="flex items-center gap-2">
+  <input type="checkbox" class="toggle" role="switch" checked /> Notifications
+</label>
+```
+
+</Tab>
+</Tabs>
+
+## Colors
+
+<Preview>
+  <Checkbox color="secondary" defaultChecked aria-label="secondary" />
+  <Checkbox color="accent" defaultChecked aria-label="accent" />
+  <Checkbox color="success" defaultChecked aria-label="success" />
+  <Checkbox color="error" defaultChecked aria-label="error" />
+  <Toggle color="secondary" defaultChecked aria-label="secondary" />
+  <Toggle color="accent" defaultChecked aria-label="accent" />
+  <Toggle color="success" defaultChecked aria-label="success" />
+  <Toggle color="error" defaultChecked aria-label="error" />
+</Preview>
+
+```tsx
+<Checkbox color="success" defaultChecked />
+<Toggle color="success" defaultChecked />
+```
+
+## Sizes
+
+<Preview>
+  <Checkbox size="sm" defaultChecked aria-label="small" />
+  <Checkbox defaultChecked aria-label="medium" />
+  <Checkbox size="lg" defaultChecked aria-label="large" />
+  <Toggle size="sm" defaultChecked aria-label="small" />
+  <Toggle defaultChecked aria-label="medium" />
+  <Toggle size="lg" defaultChecked aria-label="large" />
+</Preview>
+
+```tsx
+<Checkbox size="sm" />
+<Toggle size="lg" />
+```
+
+## Props
+
+### Checkbox
+
+<TypeTable
+  type={{
+    color: { type: '"primary" | "secondary" | "accent" | "success" | "warning" | "error"', default: '"primary"' },
+    size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+    indeterminate: { type: "boolean", description: "Shows a dash. Useful for select all." },
+  }}
+/>
+
+### Toggle
+
+<TypeTable
+  type={{
+    color: { type: '"primary" | "secondary" | "accent" | "success" | "warning" | "error"', default: '"primary"' },
+    size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+  }}
+/>
+
+Both accept every native `<input>` attribute such as `checked`, `onChange`, `name` and `disabled`.
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `checkbox` `toggle` | Base classes |
+| `checkbox-primary` ... `checkbox-error` | Checkbox color |
+| `toggle-primary` ... `toggle-error` | Toggle color |
+| `checkbox-sm` `checkbox-lg` `toggle-sm` `toggle-lg` | Size |

@@ -1,0 +1,102 @@
+---
+title: Theming
+description: Built-in themes, dark mode and creating your own theme.
+icon: Palette
+---
+
+## Built-in themes
+
+Orbit UI ships with four themes. Set one with the `data-theme` attribute on `<html>` or on any element:
+
+```html
+<html data-theme="dark">
+```
+
+<Preview>
+  <div data-theme="light" className="card card-compact w-40"><div className="card-body"><span className="font-semibold">light</span><div className="flex gap-1"><span className="badge badge-primary">a</span><span className="badge badge-secondary">b</span><span className="badge badge-accent">c</span></div></div></div>
+  <div data-theme="dark" className="card card-compact w-40"><div className="card-body"><span className="font-semibold">dark</span><div className="flex gap-1"><span className="badge badge-primary">a</span><span className="badge badge-secondary">b</span><span className="badge badge-accent">c</span></div></div></div>
+  <div data-theme="corporate" className="card card-compact w-40"><div className="card-body"><span className="font-semibold">corporate</span><div className="flex gap-1"><span className="badge badge-primary">a</span><span className="badge badge-secondary">b</span><span className="badge badge-accent">c</span></div></div></div>
+  <div data-theme="forest" className="card card-compact w-40"><div className="card-body"><span className="font-semibold">forest</span><div className="flex gap-1"><span className="badge badge-primary">a</span><span className="badge badge-secondary">b</span><span className="badge badge-accent">c</span></div></div></div>
+</Preview>
+
+With **no** `data-theme` attribute, Orbit UI follows the operating system setting and switches between `light` and `dark` automatically.
+
+Themes can be nested. A section with `data-theme="dark"` inside a light page will render dark.
+
+## Color tokens
+
+Every component uses only these tokens, so a theme is just a set of values for them. Each one is also available as a Tailwind utility, for example `bg-primary`, `text-base-content` or `border-base-300`.
+
+| Token | Used for |
+| --- | --- |
+| `primary`, `secondary`, `accent` | Brand colors |
+| `neutral` | Dark, low emphasis elements |
+| `base-100`, `base-200`, `base-300` | Page background, raised surfaces, borders |
+| `base-content` | Default text color |
+| `info`, `success`, `warning`, `error` | Status colors |
+| `*-content` | Text that sits on top of the matching color, e.g. `primary-content` |
+
+And three radius tokens: `--radius-field` (buttons, inputs), `--radius-box` (cards, modals, alerts) and `--radius-selector` (badges, toggles).
+
+## Create your own theme
+
+Define a selector with your values. You only need to override what you want to change:
+
+```css title="app/globals.css"
+@import "tailwindcss";
+@import "orbitui";
+
+[data-theme="brand"] {
+  color-scheme: light;
+  --color-primary: oklch(62% 0.19 40);
+  --color-primary-content: oklch(98% 0.01 40);
+  --color-base-100: oklch(99% 0.005 80);
+  --color-base-200: oklch(96% 0.01 80);
+  --color-base-300: oklch(90% 0.015 80);
+  --radius-field: 9999px;
+}
+```
+
+```html
+<html data-theme="brand">
+```
+
+<Callout title="Tip">
+  Use the `oklch()` color format. Keeping the hue the same and changing only lightness makes it easy to build matching `-content` colors with good contrast.
+</Callout>
+
+## Change the default theme
+
+To change the colors used when there is no `data-theme`, override the tokens in `@theme`:
+
+```css
+@import "tailwindcss";
+@import "orbitui";
+
+@theme {
+  --color-primary: oklch(55% 0.2 150);
+  --color-primary-content: oklch(98% 0.01 150);
+}
+```
+
+## Theme switcher in React
+
+```tsx
+"use client";
+
+export function ThemeSwitcher() {
+  return (
+    <select
+      className="select select-sm w-36"
+      onChange={(e) => document.documentElement.setAttribute("data-theme", e.target.value)}
+    >
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="corporate">Corporate</option>
+      <option value="forest">Forest</option>
+    </select>
+  );
+}
+```
+
+If you use `next-themes`, set `attribute="data-theme"` and it works with no other changes.
