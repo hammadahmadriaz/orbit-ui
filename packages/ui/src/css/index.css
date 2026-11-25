@@ -2,7 +2,7 @@
  * Orbit UI
  * Usage in your app's CSS:
  *   @import "tailwindcss";
- *   @import "orbitui";
+ *   @import "@orbitui/ui";
  */
 
 /* Let Tailwind see the class names used inside the React components. */

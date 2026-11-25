@@ -3,7 +3,7 @@ import { Tab, Tabs } from 'fumadocs-ui/components/tabs';
 import { Step, Steps } from 'fumadocs-ui/components/steps';
 import { TypeTable } from 'fumadocs-ui/components/type-table';
 import type { MDXComponents } from 'mdx/types';
-import * as UI from 'orbitui/react';
+import * as UI from '@orbitui/ui/react';
 import { Preview } from './preview';
 import * as Demos from './demos';
 

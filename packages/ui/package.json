@@ -1,5 +1,5 @@
 {
-  "name": "orbitui",
+  "name": "@orbitui/ui",
   "version": "0.1.0",
   "description": "A Tailwind CSS v4 component library with semantic classes, themes and React components.",
   "license": "MIT",
@@ -82,5 +82,8 @@
     "url": "https://github.com/hammadahmadriaz/orbit-ui.git",
     "directory": "packages/ui"
   },
-  "homepage": "https://orbitui.dev"
+  "homepage": "https://orbitui.dev",
+  "publishConfig": {
+    "access": "public"
+  }
 }

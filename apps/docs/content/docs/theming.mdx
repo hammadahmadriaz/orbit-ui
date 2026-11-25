@@ -44,7 +44,7 @@ Define a selector with your values. You only need to override what you want to c
 
 ```css title="app/globals.css"
 @import "tailwindcss";
-@import "orbitui";
+@import "@orbitui/ui";
 
 [data-theme="brand"] {
   color-scheme: light;
@@ -71,7 +71,7 @@ To change the colors used when there is no `data-theme`, override the tokens in 
 
 ```css
 @import "tailwindcss";
-@import "orbitui";
+@import "@orbitui/ui";
 
 @theme {
   --color-primary: oklch(55% 0.2 150);

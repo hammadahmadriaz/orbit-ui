@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import 'orbitui';
+@import '@orbitui/ui';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
 
