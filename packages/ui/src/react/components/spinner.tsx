@@ -10,12 +10,14 @@ const sizes = {
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: keyof typeof sizes;
+  /** "orbit" shows rotating rings with a glowing core. */
+  variant?: "default" | "orbit";
   /** Accessible label. Ignored when aria-hidden is set. */
   label?: string;
 }
 
 export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  { size, label = "Loading", className, ...props },
+  { size, variant = "default", label = "Loading", className, ...props },
   ref,
 ) {
   const hidden = props["aria-hidden"];
@@ -24,7 +26,7 @@ export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function 
       ref={ref}
       role={hidden ? undefined : "status"}
       aria-label={hidden ? undefined : label}
-      className={cx("spinner", size && sizes[size], className)}
+      className={cx("spinner", size && sizes[size], variant === "orbit" && "spinner-orbit", className)}
       {...props}
     />
   );

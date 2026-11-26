@@ -1,0 +1,85 @@
+---
+title: Animations
+description: GSAP style entrance, loop and scroll animations in pure CSS. No JavaScript, no extra library.
+icon: Sparkles
+---
+
+Orbit UI ships a set of ready animations. They are normal Tailwind `animate-*` classes, so variants like `hover:` and `md:` work, and you only pay for the ones you use.
+
+<AnimationPlayground />
+
+## Entrance animations
+
+| Class | Effect |
+| --- | --- |
+| `animate-fade-in` | Fade in |
+| `animate-fade-up` | Fade in while moving up |
+| `animate-fade-down` | Fade in while moving down |
+| `animate-slide-in-left` | Slide in from the left |
+| `animate-slide-in-right` | Slide in from the right |
+| `animate-zoom-in` | Grow from 85% |
+| `animate-blur-in` | Come into focus from a blur |
+| `animate-flip-in` | 3D flip forward |
+| `animate-pop` | Bouncy pop in |
+
+```html
+<h1 class="animate-fade-up">Hello</h1>
+```
+
+## Looping animations
+
+| Class | Effect |
+| --- | --- |
+| `animate-float` | Gentle up and down hover |
+| `animate-glow-pulse` | Pulsing glow in the primary color |
+| `animate-glitch` | Short digital glitch every few seconds |
+| `animate-shimmer` | Moving shine (combine with `shimmer`) |
+| `animate-shake` | Shake once, great for errors |
+
+<Preview>
+  <div className="badge badge-primary animate-float">Floating</div>
+  <button className="btn btn-primary animate-glow-pulse">Glow pulse</button>
+  <span className="text-xl font-bold animate-glitch">GLITCH</span>
+  <button className="btn btn-error btn-outline hover:animate-shake">Hover me</button>
+  <div className="shimmer animate-shimmer h-10 w-40 rounded-field bg-base-200" />
+</Preview>
+
+```html
+<button class="btn btn-primary animate-glow-pulse">Glow pulse</button>
+<button class="btn btn-error hover:animate-shake">Hover me</button>
+<div class="shimmer animate-shimmer h-10 w-40 bg-base-200"></div>
+```
+
+## Timing
+
+Control delay and duration in milliseconds:
+
+```html
+<p class="animate-fade-up anim-delay-300 anim-duration-1200">Slow and late</p>
+```
+
+## Stagger
+
+Like GSAP's `stagger`: put `stagger` on the parent and every child starts a bit after the previous one. Change the gap with `stagger-<ms>`.
+
+```html
+<ul class="stagger stagger-120">
+  <li class="animate-fade-up">One</li>
+  <li class="animate-fade-up">Two</li>
+  <li class="animate-fade-up">Three</li>
+</ul>
+```
+
+## Scroll reveal
+
+Like ScrollTrigger: add `reveal` and the animation plays as the element scrolls into view. It uses native CSS scroll-driven animations, so it runs smoothly on the GPU with zero JavaScript. In browsers without support, the element simply appears.
+
+<ScrollRevealDemo />
+
+```html
+<div class="card animate-fade-up reveal">...</div>
+```
+
+## Accessibility
+
+When the user has turned on **reduce motion** in their operating system, entrance and loop animations finish instantly. You do not have to do anything.

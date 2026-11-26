@@ -31,6 +31,9 @@
   border-radius: var(--radius-field);
   background-color: var(--btn-bg, var(--btn-color, var(--color-base-200)));
   color: var(--btn-text, var(--btn-fg, var(--color-base-content)));
+  /* Only visible in themes that set --oui-glow (e.g. hud). */
+  box-shadow: 0 0 calc(var(--oui-glow) * 14px)
+    color-mix(in oklch, var(--btn-color, transparent) calc(var(--oui-glow) * 45%), transparent);
   transition:
     background-color 150ms,
     border-color 150ms,

@@ -1,0 +1,162 @@
+/*
+ * Progress (styled native <progress>) and Radial progress (HUD style gauge)
+ * Classes: progress progress-striped progress-radial
+ * Colors:  progress-primary ... progress-error (work on both)
+ * Sizes:   progress-xs progress-sm progress-md progress-lg
+ * A <progress> without a value attribute shows the indeterminate animation.
+ */
+
+@property --value {
+  syntax: "<number>";
+  inherits: true;
+  initial-value: 0;
+}
+
+@keyframes oui-progress-indeterminate {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+@keyframes oui-progress-stripes {
+  from {
+    background-position: 1rem 0;
+  }
+  to {
+    background-position: 0 0;
+  }
+}
+
+@utility progress {
+  appearance: none;
+  display: block;
+  width: 100%;
+  height: var(--progress-h, 0.5rem);
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--radius-selector);
+  background-color: color-mix(in oklch, var(--color-base-content) 12%, transparent);
+  color: var(--progress-color, var(--color-primary));
+  box-shadow: 0 0 calc(var(--oui-glow) * 10px)
+    color-mix(in oklch, currentColor calc(var(--oui-glow) * 45%), transparent);
+
+  &::-webkit-progress-bar {
+    background-color: transparent;
+  }
+  &::-webkit-progress-value {
+    background-color: currentColor;
+    border-radius: inherit;
+    transition: inline-size 300ms ease;
+  }
+  &::-moz-progress-bar {
+    background-color: currentColor;
+    border-radius: inherit;
+  }
+  &:indeterminate {
+    background-image: linear-gradient(90deg, transparent 0 35%, currentColor 35% 65%, transparent 65%);
+    background-size: 200% 100%;
+    animation: oui-progress-indeterminate 1.3s linear infinite;
+  }
+  &:indeterminate::-moz-progress-bar {
+    background-color: transparent;
+  }
+}
+
+@utility progress-striped {
+  &::-webkit-progress-value {
+    background-image: linear-gradient(
+      45deg,
+      oklch(100% 0 0 / 0.22) 25%,
+      transparent 25% 50%,
+      oklch(100% 0 0 / 0.22) 50% 75%,
+      transparent 75%
+    );
+    background-size: 1rem 1rem;
+    animation: oui-progress-stripes 0.8s linear infinite;
+  }
+  &::-moz-progress-bar {
+    background-image: linear-gradient(
+      45deg,
+      oklch(100% 0 0 / 0.22) 25%,
+      transparent 25% 50%,
+      oklch(100% 0 0 / 0.22) 50% 75%,
+      transparent 75%
+    );
+    background-size: 1rem 1rem;
+    animation: oui-progress-stripes 0.8s linear infinite;
+  }
+}
+
+/* Radial gauge. Set the value with style="--value: 70" (0 to 100). */
+@utility progress-radial {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: var(--size, 4rem);
+  height: var(--size, 4rem);
+  font-size: calc(var(--size, 4rem) * 0.22);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--progress-color, var(--color-primary));
+  transition: --value 600ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: conic-gradient(
+      currentColor calc(var(--value) * 1%),
+      color-mix(in oklch, var(--color-base-content) 12%, transparent) 0
+    );
+    mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - var(--thickness, calc(var(--size, 4rem) * 0.1)) - 0.5px),
+      #000 calc(100% - var(--thickness, calc(var(--size, 4rem) * 0.1)))
+    );
+    filter: drop-shadow(
+      0 0 calc(var(--oui-glow) * 6px)
+        color-mix(in oklch, currentColor calc(var(--oui-glow) * 70%), transparent)
+    );
+  }
+}
+
+@utility progress-primary {
+  --progress-color: var(--color-primary);
+}
+@utility progress-secondary {
+  --progress-color: var(--color-secondary);
+}
+@utility progress-accent {
+  --progress-color: var(--color-accent);
+}
+@utility progress-neutral {
+  --progress-color: var(--color-neutral);
+}
+@utility progress-info {
+  --progress-color: var(--color-info);
+}
+@utility progress-success {
+  --progress-color: var(--color-success);
+}
+@utility progress-warning {
+  --progress-color: var(--color-warning);
+}
+@utility progress-error {
+  --progress-color: var(--color-error);
+}
+
+@utility progress-xs {
+  --progress-h: 0.25rem;
+}
+@utility progress-sm {
+  --progress-h: 0.375rem;
+}
+@utility progress-md {
+  --progress-h: 0.5rem;
+}
+@utility progress-lg {
+  --progress-h: 0.875rem;
+}

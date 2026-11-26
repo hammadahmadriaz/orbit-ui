@@ -1,0 +1,139 @@
+---
+title: Tabs
+description: Switch between related views. Keyboard friendly and accessible.
+---
+
+<Preview align="stack">
+  <OrbitTabs defaultValue="overview">
+    <TabList aria-label="Project">
+      <OrbitTab value="overview">Overview</OrbitTab>
+      <OrbitTab value="activity">Activity</OrbitTab>
+      <OrbitTab value="settings">Settings</OrbitTab>
+    </TabList>
+    <TabPanel value="overview">Your project is running smoothly. 3 deployments this week.</TabPanel>
+    <TabPanel value="activity">Hammad pushed 4 commits to main.</TabPanel>
+    <TabPanel value="settings">Change the project name, domain and team.</TabPanel>
+  </OrbitTabs>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Tab, TabList, TabPanel, Tabs } from "@orbitdesign/ui/react";
+
+<Tabs defaultValue="overview">
+  <TabList aria-label="Project">
+    <Tab value="overview">Overview</Tab>
+    <Tab value="activity">Activity</Tab>
+    <Tab value="settings">Settings</Tab>
+  </TabList>
+  <TabPanel value="overview">...</TabPanel>
+  <TabPanel value="activity">...</TabPanel>
+  <TabPanel value="settings">...</TabPanel>
+</Tabs>
+```
+
+Use the arrow keys, Home and End to move between tabs.
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div role="tablist" class="tabs tabs-line">
+  <button role="tab" class="tab" aria-selected="true">Overview</button>
+  <button role="tab" class="tab">Activity</button>
+  <button role="tab" class="tab">Settings</button>
+</div>
+<div role="tabpanel" class="tab-panel">...</div>
+```
+
+With plain HTML you switch tabs yourself by moving `aria-selected="true"` (or the `tab-active` class).
+
+</Tab>
+</Tabs>
+
+## Variants
+
+<Preview align="stack">
+  <OrbitTabs defaultValue="a" variant="line"><TabList aria-label="Line"><OrbitTab value="a">Line</OrbitTab><OrbitTab value="b">Second</OrbitTab><OrbitTab value="c">Third</OrbitTab></TabList></OrbitTabs>
+  <OrbitTabs defaultValue="a" variant="boxed"><TabList aria-label="Boxed"><OrbitTab value="a">Boxed</OrbitTab><OrbitTab value="b">Second</OrbitTab><OrbitTab value="c">Third</OrbitTab></TabList></OrbitTabs>
+  <OrbitTabs defaultValue="a" variant="pill"><TabList aria-label="Pill"><OrbitTab value="a">Pill</OrbitTab><OrbitTab value="b">Second</OrbitTab><OrbitTab value="c">Third</OrbitTab></TabList></OrbitTabs>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Tabs variant="line">...</Tabs>
+<Tabs variant="boxed">...</Tabs>
+<Tabs variant="pill">...</Tabs>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div class="tabs tabs-line">...</div>
+<div class="tabs tabs-boxed">...</div>
+<div class="tabs tabs-pill">...</div>
+```
+
+</Tab>
+</Tabs>
+
+## Colors and sizes
+
+<Preview align="stack">
+  <OrbitTabs defaultValue="a" variant="pill" color="secondary" size="sm"><TabList aria-label="Small"><OrbitTab value="a">Small</OrbitTab><OrbitTab value="b">Secondary</OrbitTab></TabList></OrbitTabs>
+  <OrbitTabs defaultValue="a" variant="line" color="accent" size="lg"><TabList aria-label="Large"><OrbitTab value="a">Large</OrbitTab><OrbitTab value="b">Accent</OrbitTab></TabList></OrbitTabs>
+</Preview>
+
+```tsx
+<Tabs variant="pill" color="secondary" size="sm">...</Tabs>
+<Tabs variant="line" color="accent" size="lg">...</Tabs>
+```
+
+## Controlled
+
+```tsx
+const [tab, setTab] = useState("overview");
+
+<Tabs value={tab} onValueChange={setTab}>...</Tabs>
+```
+
+## Props
+
+### Tabs
+
+<TypeTable
+  type={{
+    value: { type: "string", description: "Selected tab (controlled)." },
+    defaultValue: { type: "string", description: "Initially selected tab." },
+    onValueChange: { type: "(value: string) => void" },
+    variant: { type: '"line" | "boxed" | "pill"', default: '"line"' },
+    color: { type: '"primary" | "secondary" | "accent" | "neutral"', default: '"primary"' },
+    size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+  }}
+/>
+
+### Tab / TabPanel
+
+<TypeTable
+  type={{
+    value: { type: "string", required: true, description: "Connects a Tab to its TabPanel." },
+    keepMounted: { type: "boolean", description: "TabPanel only. Keep hidden panels in the DOM." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `tabs` | Container (the tab list) |
+| `tab` | One tab |
+| `tab-active` | Active tab (or use `aria-selected="true"`) |
+| `tab-panel` | Panel content |
+| `tabs-line` `tabs-boxed` `tabs-pill` | Variant |
+| `tabs-primary` `tabs-secondary` `tabs-accent` `tabs-neutral` | Color |
+| `tabs-sm` `tabs-md` `tabs-lg` | Size |

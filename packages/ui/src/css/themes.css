@@ -43,6 +43,8 @@
     color-scheme: light;
     --oui-border: 1px;
     --oui-ring: 3px;
+    /* 0 = no glow. The hud theme sets 1, and components start to glow. */
+    --oui-glow: 0;
   }
 
   [data-theme="light"] {
@@ -117,6 +119,35 @@
       --color-error: oklch(70% 0.18 25);
       --color-error-content: oklch(16% 0.04 25);
     }
+  }
+
+  /* Futuristic heads-up display: deep navy, cyan light, sharp corners, glow. */
+  [data-theme="hud"] {
+    color-scheme: dark;
+    --color-primary: oklch(84% 0.14 210);
+    --color-primary-content: oklch(18% 0.05 230);
+    --color-secondary: oklch(76% 0.17 55);
+    --color-secondary-content: oklch(20% 0.05 55);
+    --color-accent: oklch(84% 0.15 165);
+    --color-accent-content: oklch(18% 0.05 165);
+    --color-neutral: oklch(30% 0.05 235);
+    --color-neutral-content: oklch(92% 0.03 210);
+    --color-base-100: oklch(17% 0.035 245);
+    --color-base-200: oklch(13.5% 0.03 245);
+    --color-base-300: oklch(36% 0.07 225);
+    --color-base-content: oklch(92% 0.035 210);
+    --color-info: oklch(78% 0.13 230);
+    --color-info-content: oklch(16% 0.04 230);
+    --color-success: oklch(80% 0.17 150);
+    --color-success-content: oklch(16% 0.04 150);
+    --color-warning: oklch(84% 0.16 80);
+    --color-warning-content: oklch(20% 0.05 80);
+    --color-error: oklch(68% 0.21 25);
+    --color-error-content: oklch(98% 0.01 25);
+    --radius-field: 0.125rem;
+    --radius-box: 0.25rem;
+    --radius-selector: 0.125rem;
+    --oui-glow: 1;
   }
 
   [data-theme="corporate"] {

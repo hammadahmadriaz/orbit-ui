@@ -36,12 +36,18 @@ After that, use the automated flow:
 3. Every PR that changes the library includes a changeset (`pnpm changeset`).
 4. Merging to `main` opens a "Version Packages" PR. Merging that publishes to npm and writes the changelog.
 
-## Deploying the docs
+## Docs website
 
-Import the repo on [Vercel](https://vercel.com), set the root directory to `apps/docs`, and deploy. Vercel detects pnpm and Turborepo automatically.
+Live at **https://hammadahmadriaz.github.io/orbit-ui/**. Every push to `main` rebuilds it with the Docs workflow (GitHub Pages, static export).
 
-## Before going public
+To host it on Vercel instead, import the repo and set the root directory to `apps/docs`.
 
-- Set the real docs domain in `packages/ui/package.json` (`homepage`) and `packages/ui/README.md`.
+## Security
+
+See [SECURITY.md](./SECURITY.md) for how to report a vulnerability. Releases are built only by GitHub Actions and published with npm provenance.
+
+## License
+
+[MIT](./LICENSE). Anyone can use, copy and modify Orbit UI in their own projects. Changes to this repository go through pull requests reviewed by the maintainer.
 
 See [CONTRIBUTING.md](./CONTRIBUTING.md) for how components are built.

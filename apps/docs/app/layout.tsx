@@ -2,6 +2,7 @@ import { RootProvider } from 'fumadocs-ui/provider/next';
 import { GeistSans } from 'geist/font/sans';
 import { GeistMono } from 'geist/font/mono';
 import type { Metadata } from 'next';
+import { basePath } from '@/lib/shared';
 import './global.css';
 
 export const metadata: Metadata = {
@@ -17,7 +18,7 @@ export default function Layout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
       <body className="flex min-h-screen flex-col font-sans">
-        <RootProvider>{children}</RootProvider>
+        <RootProvider search={{ options: { type: 'static', api: `${basePath}/api/search` } }}>{children}</RootProvider>
       </body>
     </html>
   );

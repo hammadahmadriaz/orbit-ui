@@ -7,19 +7,26 @@ import * as UI from '@orbitdesign/ui/react';
 import { Preview } from './preview';
 import * as Demos from './demos';
 
+// Orbit UI exports Tabs/Tab and Card, which clash with Fumadocs names used in MDX.
+// Fumadocs keeps Tabs/Tab (code tabs); Orbit's are OrbitTabs/OrbitTab.
+// Orbit keeps Card (previews); Fumadocs' is DocsCard.
+// cx and useToast are helpers, not components.
+const { Tabs: OrbitTabs, Tab: OrbitTab, cx: _cx, useToast: _useToast, ...OrbitUI } = UI;
+
 export function getMDXComponents(components?: MDXComponents) {
   return {
     ...defaultMdxComponents,
-    // Orbit UI exports its own Card, so the Fumadocs one is renamed.
     DocsCard: defaultMdxComponents.Card,
-    Tab,
-    Tabs,
     Step,
     Steps,
     TypeTable,
     Preview,
     ...Demos,
-    ...UI,
+    ...OrbitUI,
+    OrbitTabs,
+    OrbitTab,
+    Tab,
+    Tabs,
     ...components,
   } satisfies MDXComponents;
 }

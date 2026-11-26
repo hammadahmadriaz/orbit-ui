@@ -1,0 +1,41 @@
+name: Bug report
+description: Something does not work as expected
+labels: ["bug"]
+body:
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `npm ls @orbitdesign/ui`
+      placeholder: 0.1.0
+    validations:
+      required: true
+  - type: dropdown
+    id: usage
+    attributes:
+      label: How do you use it?
+      options:
+        - CSS classes only
+        - React components
+        - Both
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: A link to a StackBlitz or a small code sample helps a lot.
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Browser and framework
+      placeholder: Chrome 131, Next.js 16

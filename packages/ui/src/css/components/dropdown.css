@@ -1,0 +1,133 @@
+/*
+ * Dropdown and Menu
+ * Classes:   dropdown dropdown-content menu menu-item menu-label menu-divider menu-item-danger
+ * Placement: dropdown-end dropdown-top
+ *
+ * CSS only version uses <details>:
+ *   <details class="dropdown">
+ *     <summary class="btn">Options</summary>
+ *     <ul class="dropdown-content menu">...</ul>
+ *   </details>
+ */
+
+@keyframes oui-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(var(--dd-shift, -4px)) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility dropdown {
+  position: relative;
+  display: inline-block;
+
+  & > summary {
+    list-style: none;
+  }
+  & > summary::-webkit-details-marker {
+    display: none;
+  }
+  &:is(details):not([open]) > .dropdown-content {
+    display: none;
+  }
+}
+
+@utility dropdown-content {
+  position: absolute;
+  z-index: 50;
+  top: var(--dd-top, calc(100% + 0.375rem));
+  bottom: var(--dd-bottom, auto);
+  left: var(--dd-left, 0);
+  right: var(--dd-right, auto);
+  min-width: 12rem;
+  padding: 0.375rem;
+  border: var(--oui-border) solid var(--color-base-300);
+  border-radius: var(--radius-box);
+  background-color: var(--color-base-100);
+  color: var(--color-base-content);
+  box-shadow:
+    0 12px 32px oklch(0% 0 0 / 0.16),
+    0 0 calc(var(--oui-glow) * 20px)
+      color-mix(in oklch, var(--color-primary) calc(var(--oui-glow) * 22%), transparent);
+  transform-origin: var(--dd-origin, top left);
+  animation: oui-dropdown-in 140ms ease-out;
+}
+
+@utility dropdown-end {
+  --dd-left: auto;
+  --dd-right: 0;
+  --dd-origin: top right;
+}
+@utility dropdown-top {
+  --dd-top: auto;
+  --dd-bottom: calc(100% + 0.375rem);
+  --dd-origin: bottom left;
+  --dd-shift: 4px;
+}
+
+@utility menu {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  margin: 0;
+  list-style: none;
+}
+
+@utility menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+  font-size: 0.875rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: calc(var(--radius-field) * 0.8);
+  background-color: transparent;
+  color: var(--menu-fg, var(--color-base-content));
+  transition: background-color 120ms;
+
+  &:hover,
+  &:focus-visible,
+  &[data-highlighted] {
+    outline: none;
+    background-color: color-mix(in oklch, var(--menu-fg, var(--color-base-content)) 9%, transparent);
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: transparent;
+  }
+  & svg {
+    width: 1rem;
+    height: 1rem;
+    opacity: 0.75;
+  }
+}
+
+@utility menu-item-danger {
+  --menu-fg: var(--color-error);
+}
+
+@utility menu-label {
+  padding: 0.375rem 0.625rem 0.25rem;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: color-mix(in oklch, var(--color-base-content) 50%, transparent);
+}
+
+@utility menu-divider {
+  height: 1px;
+  margin: 0.25rem 0;
+  border: 0;
+  background-color: var(--color-base-300);
+}

@@ -1,0 +1,114 @@
+---
+title: Toast
+description: Short notifications that appear on top of the page and close by themselves.
+---
+
+<Preview>
+  <ToastDemo />
+</Preview>
+
+## Setup
+
+Wrap your app once with `ToastProvider`:
+
+```tsx title="app/layout.tsx"
+import { ToastProvider } from "@orbitdesign/ui/react";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <ToastProvider position="bottom-end">{children}</ToastProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## Usage
+
+Call `toast()` from any component:
+
+```tsx
+"use client";
+
+import { Button, useToast } from "@orbitdesign/ui/react";
+
+export function SaveButton() {
+  const { toast } = useToast();
+
+  return (
+    <Button
+      color="primary"
+      onClick={() =>
+        toast({
+          status: "success",
+          title: "Changes saved",
+          description: "Your profile has been updated.",
+        })
+      }
+    >
+      Save
+    </Button>
+  );
+}
+```
+
+`toast()` returns an id. Close one with `dismiss(id)`, or all with `dismiss()`.
+
+### With an action
+
+```tsx
+toast({
+  title: "File deleted",
+  duration: 8000,
+  action: <Button size="xs" variant="outline" onClick={undo}>Undo</Button>,
+});
+```
+
+## HTML
+
+The CSS works without React. Position a `toast` container and put alerts inside:
+
+```html
+<div class="toast toast-top-end" role="region" aria-label="Notifications">
+  <div class="alert alert-success toast-item" role="status">
+    <div class="alert-title">Changes saved</div>
+    <div class="alert-description">Your profile has been updated.</div>
+  </div>
+</div>
+```
+
+## Props
+
+### ToastProvider
+
+<TypeTable
+  type={{
+    position: { type: '"top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end"', default: '"bottom-end"' },
+    duration: { type: "number", default: "4000", description: "Milliseconds. Use Infinity to keep toasts open." },
+    limit: { type: "number", default: "5", description: "Max toasts on screen." },
+  }}
+/>
+
+### toast(options)
+
+<TypeTable
+  type={{
+    title: { type: "ReactNode" },
+    description: { type: "ReactNode" },
+    status: { type: '"info" | "success" | "warning" | "error"' },
+    variant: { type: '"soft" | "solid" | "outline"', default: '"soft"' },
+    duration: { type: "number", description: "Overrides the provider default." },
+    action: { type: "ReactNode", description: "Extra element, e.g. an Undo button." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `toast` | Fixed container |
+| `toast-top-start` ... `toast-bottom-end` | Position |
+| `toast-item` | One notification (combine with `alert`) |
+| `toast-close` | Close button position |

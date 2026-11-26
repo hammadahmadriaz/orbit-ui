@@ -1,0 +1,20 @@
+name: Feature request
+description: Suggest a new component, variant or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What do you want to build?
+      description: Describe the problem, not only the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How would the class names or props look?
+  - type: textarea
+    id: examples
+    attributes:
+      label: Examples from other libraries

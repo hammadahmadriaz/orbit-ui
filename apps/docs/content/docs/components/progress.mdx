@@ -1,0 +1,116 @@
+---
+title: Progress
+description: Show how far a task has come, as a bar or a HUD style radial gauge.
+---
+
+<Preview align="stack">
+  <Progress value={25} aria-label="Default" />
+  <Progress value={50} color="secondary" aria-label="Secondary" />
+  <Progress value={75} color="success" striped aria-label="Striped" />
+  <Progress color="accent" aria-label="Loading" />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Progress } from "@orbitdesign/ui/react";
+
+<Progress value={25} aria-label="Upload" />
+<Progress value={50} color="secondary" />
+<Progress value={75} color="success" striped />
+<Progress color="accent" /> {/* no value = loading animation */}
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<progress class="progress" value="25" max="100"></progress>
+<progress class="progress progress-secondary" value="50" max="100"></progress>
+<progress class="progress progress-success progress-striped" value="75" max="100"></progress>
+<progress class="progress progress-accent"></progress>
+```
+
+</Tab>
+</Tabs>
+
+## Sizes
+
+<Preview align="stack">
+  <Progress value={60} size="xs" aria-label="xs" />
+  <Progress value={60} size="sm" aria-label="sm" />
+  <Progress value={60} size="md" aria-label="md" />
+  <Progress value={60} size="lg" aria-label="lg" />
+</Preview>
+
+```tsx
+<Progress value={60} size="xs" />
+<Progress value={60} size="lg" />
+```
+
+## Radial gauge
+
+A circular gauge in HUD style. It animates smoothly when the value changes.
+
+<Preview>
+  <RadialProgressDemo />
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { RadialProgress } from "@orbitdesign/ui/react";
+
+<RadialProgress value={72} />
+<RadialProgress value={45} color="secondary" size="6rem" thickness="6px" />
+<RadialProgress value={90} color="success">OK</RadialProgress>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<div class="progress-radial" style="--value: 72" role="progressbar" aria-valuenow="72">72%</div>
+<div class="progress-radial progress-secondary" style="--value: 45; --size: 6rem; --thickness: 6px">45%</div>
+```
+
+</Tab>
+</Tabs>
+
+## Props
+
+### Progress
+
+<TypeTable
+  type={{
+    value: { type: "number", description: "Leave empty for the loading animation." },
+    max: { type: "number", default: "100" },
+    color: { type: '"primary" | "secondary" | "accent" | "neutral" | "info" | "success" | "warning" | "error"' },
+    size: { type: '"xs" | "sm" | "md" | "lg"', default: '"md"' },
+    striped: { type: "boolean", description: "Animated stripes." },
+  }}
+/>
+
+### RadialProgress
+
+<TypeTable
+  type={{
+    value: { type: "number", required: true, description: "0 to 100." },
+    size: { type: "string", default: '"4rem"', description: "Any CSS length." },
+    thickness: { type: "string", description: "Ring thickness. Default 10% of size." },
+    color: { type: "Color" },
+    children: { type: "ReactNode", description: "Center content. Default is the percentage." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `progress` | Bar, on a `<progress>` element |
+| `progress-striped` | Animated stripes |
+| `progress-radial` | Circular gauge, set `--value` |
+| `progress-primary` ... `progress-error` | Color |
+| `progress-xs` `progress-sm` `progress-md` `progress-lg` | Bar height |

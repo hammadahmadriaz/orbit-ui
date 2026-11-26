@@ -1,0 +1,102 @@
+/*
+ * HUD effects: sci-fi heads-up display details that work in every theme.
+ * They use the theme's primary color, so they look best with data-theme="hud".
+ *
+ * Classes: hud-frame hud-scan hud-grid text-glow clip-corner hud-glow
+ */
+
+@keyframes oui-hud-scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(400%);
+  }
+}
+
+/* Corner brackets, like a targeting frame. */
+@utility hud-frame {
+  --frame-c: var(--color-primary);
+  --frame-s: 14px;
+  --frame-w: 2px;
+  background-image:
+    linear-gradient(var(--frame-c), var(--frame-c)), linear-gradient(var(--frame-c), var(--frame-c)),
+    linear-gradient(var(--frame-c), var(--frame-c)), linear-gradient(var(--frame-c), var(--frame-c)),
+    linear-gradient(var(--frame-c), var(--frame-c)), linear-gradient(var(--frame-c), var(--frame-c)),
+    linear-gradient(var(--frame-c), var(--frame-c)), linear-gradient(var(--frame-c), var(--frame-c));
+  background-size:
+    var(--frame-s) var(--frame-w), var(--frame-w) var(--frame-s),
+    var(--frame-s) var(--frame-w), var(--frame-w) var(--frame-s),
+    var(--frame-s) var(--frame-w), var(--frame-w) var(--frame-s),
+    var(--frame-s) var(--frame-w), var(--frame-w) var(--frame-s);
+  background-position:
+    top left, top left, top right, top right,
+    bottom left, bottom left, bottom right, bottom right;
+  background-repeat: no-repeat;
+}
+
+/* A light line that sweeps from top to bottom. */
+@utility hud-scan {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 25%;
+    pointer-events: none;
+    z-index: 1;
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      color-mix(in oklch, var(--color-primary) 18%, transparent) 85%,
+      color-mix(in oklch, var(--color-primary) 55%, transparent)
+    );
+    animation: oui-hud-scan var(--scan-speed, 3.5s) linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+      display: none;
+    }
+  }
+}
+
+/* Blueprint style grid background. */
+@utility hud-grid {
+  --grid-size: 24px;
+  background-image:
+    linear-gradient(color-mix(in oklch, var(--color-primary) 9%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklch, var(--color-primary) 9%, transparent) 1px, transparent 1px);
+  background-size: var(--grid-size) var(--grid-size);
+}
+
+/* Glowing text in the current text color. */
+@utility text-glow {
+  text-shadow:
+    0 0 6px color-mix(in oklch, currentColor 55%, transparent),
+    0 0 18px color-mix(in oklch, currentColor 30%, transparent);
+}
+
+/* Glowing outline in the primary color, in any theme. */
+@utility hud-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in oklch, var(--color-primary) 60%, transparent),
+    0 0 18px color-mix(in oklch, var(--color-primary) 35%, transparent),
+    inset 0 0 18px color-mix(in oklch, var(--color-primary) 12%, transparent);
+}
+
+/* Angled corners (top left and bottom right). Note: clips shadows too. */
+@utility clip-corner {
+  --clip: 10px;
+  clip-path: polygon(
+    var(--clip) 0,
+    100% 0,
+    100% calc(100% - var(--clip)),
+    calc(100% - var(--clip)) 100%,
+    0 100%,
+    0 var(--clip)
+  );
+}

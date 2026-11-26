@@ -1,0 +1,100 @@
+---
+title: Tooltip
+description: A short hint that shows on hover and keyboard focus. Pure CSS, no positioning library.
+---
+
+<Preview>
+  <Tooltip content="Top (default)"><Button>Top</Button></Tooltip>
+  <Tooltip content="Shown below" side="bottom"><Button>Bottom</Button></Tooltip>
+  <Tooltip content="On the left" side="left"><Button>Left</Button></Tooltip>
+  <Tooltip content="On the right" side="right"><Button>Right</Button></Tooltip>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import { Button, Tooltip } from "@orbitdesign/ui/react";
+
+<Tooltip content="Top (default)">
+  <Button>Top</Button>
+</Tooltip>
+<Tooltip content="Shown below" side="bottom">
+  <Button>Bottom</Button>
+</Tooltip>
+```
+
+The trigger gets `aria-describedby`, so screen readers read the tooltip text.
+
+</Tab>
+<Tab value="HTML">
+
+Short version with `data-tip`:
+
+```html
+<span class="tooltip" data-tip="Top (default)">
+  <button class="btn">Top</button>
+</span>
+<span class="tooltip tooltip-bottom" data-tip="Shown below">
+  <button class="btn">Bottom</button>
+</span>
+```
+
+Or with rich content:
+
+```html
+<span class="tooltip">
+  <button class="btn" aria-describedby="tip-1">Shortcut</button>
+  <span id="tip-1" role="tooltip" class="tooltip-content">Press <kbd>Ctrl</kbd> + <kbd>K</kbd></span>
+</span>
+```
+
+</Tab>
+</Tabs>
+
+## Colors
+
+<Preview>
+  <Tooltip content="Primary" color="primary" open><Button variant="outline">primary</Button></Tooltip>
+  <Tooltip content="Success" color="success" open><Button variant="outline">success</Button></Tooltip>
+  <Tooltip content="Warning" color="warning" open><Button variant="outline">warning</Button></Tooltip>
+  <Tooltip content="Error" color="error" open><Button variant="outline">error</Button></Tooltip>
+</Preview>
+
+```tsx
+<Tooltip content="Saved" color="success">...</Tooltip>
+```
+
+## Rich content
+
+<Preview>
+  <Tooltip content={<span>Press <strong>Ctrl + K</strong> to search</span>}><Button color="primary">Search</Button></Tooltip>
+</Preview>
+
+```tsx
+<Tooltip content={<span>Press <strong>Ctrl + K</strong> to search</span>}>
+  <Button color="primary">Search</Button>
+</Tooltip>
+```
+
+## Props
+
+<TypeTable
+  type={{
+    content: { type: "ReactNode", required: true },
+    side: { type: '"top" | "bottom" | "left" | "right"', default: '"top"' },
+    color: { type: '"primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error"', description: "Default is neutral." },
+    open: { type: "boolean", description: "Keep it visible." },
+    children: { type: "ReactElement", required: true, description: "A single element, usually a button." },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `tooltip` | Wrapper. Use `data-tip` for simple text |
+| `tooltip-content` | Rich content element |
+| `tooltip-top` `tooltip-bottom` `tooltip-left` `tooltip-right` | Position |
+| `tooltip-primary` ... `tooltip-error` | Color |
+| `tooltip-open` | Always visible |

@@ -21,6 +21,8 @@
   border-radius: var(--radius-selector);
   background-color: var(--badge-bg, var(--badge-color, var(--color-base-200)));
   color: var(--badge-text, var(--badge-fg, var(--color-base-content)));
+  box-shadow: 0 0 calc(var(--oui-glow) * 10px)
+    color-mix(in oklch, var(--badge-color, transparent) calc(var(--oui-glow) * 40%), transparent);
 }
 
 @utility badge-primary {

@@ -39,8 +39,8 @@ const features = [
     text: 'Classes are Tailwind utilities, generated on demand. Unused components add zero bytes.',
   },
   {
-    title: 'Easy to customize',
-    text: 'Every component reads CSS variables. Change one detail without overriding the whole thing.',
+    title: 'HUD theme and animations',
+    text: 'A futuristic glowing theme, scan lines, corner frames and GSAP style animations in pure CSS.',
   },
 ];
 
@@ -49,7 +49,7 @@ export default function HomePage() {
     <main className="flex flex-1 flex-col">
       <section className="relative overflow-hidden border-b border-fd-border">
         <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top,oklch(60%_0.2_268/0.18),transparent_60%)]" />
-        <div className="mx-auto flex max-w-5xl flex-col items-center px-6 pt-24 pb-20 text-center">
+        <div className="stagger stagger-90 mx-auto flex max-w-5xl flex-col items-center px-6 pt-24 pb-20 text-center [&>*]:animate-fade-up">
           <span className="mb-6 rounded-full border border-fd-border bg-fd-card px-3 py-1 text-xs text-fd-muted-foreground">
             Built for Tailwind CSS v4
           </span>
@@ -82,7 +82,7 @@ export default function HomePage() {
       <section className="mx-auto w-full max-w-5xl px-6 py-20">
         <div className="grid gap-4 md:grid-cols-2">
           <ShowcaseSurface theme="light" />
-          <ShowcaseSurface theme="dark" />
+          <ShowcaseSurface theme="hud" />
         </div>
       </section>
 
@@ -109,9 +109,12 @@ export default function HomePage() {
   );
 }
 
-function ShowcaseSurface({ theme }: { theme: 'light' | 'dark' }) {
+function ShowcaseSurface({ theme }: { theme: 'light' | 'hud' }) {
   return (
-    <div data-theme={theme} className="flex flex-col gap-4 rounded-2xl border border-base-300 bg-base-200 p-6 text-base-content">
+    <div
+      data-theme={theme}
+      className={`flex flex-col gap-4 rounded-2xl border border-base-300 bg-base-200 p-6 text-base-content animate-fade-up reveal ${theme === 'hud' ? 'hud-grid' : ''}`}
+    >
       <div className="flex items-center justify-between">
         <AvatarGroup>
           <Avatar name="Hammad Riaz" size="sm" />
@@ -122,7 +125,7 @@ function ShowcaseSurface({ theme }: { theme: 'light' | 'dark' }) {
           {theme}
         </Badge>
       </div>
-      <Card>
+      <Card className={theme === 'hud' ? 'hud-frame hud-scan' : ''}>
         <CardBody>
           <CardTitle>Create account</CardTitle>
           <CardDescription>Start your 14 day free trial. No card needed.</CardDescription>

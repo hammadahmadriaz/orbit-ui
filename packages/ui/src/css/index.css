@@ -12,12 +12,19 @@
 
 /* components:start (kept sorted by scripts/new-component.mjs) */
 @import "./components/alert.css";
+@import "./components/animations.css";
 @import "./components/avatar.css";
 @import "./components/badge.css";
 @import "./components/button.css";
 @import "./components/card.css";
 @import "./components/checkbox.css";
+@import "./components/dropdown.css";
+@import "./components/hud.css";
 @import "./components/input.css";
 @import "./components/modal.css";
+@import "./components/progress.css";
 @import "./components/spinner.css";
+@import "./components/tabs.css";
+@import "./components/toast.css";
+@import "./components/tooltip.css";
 /* components:end */

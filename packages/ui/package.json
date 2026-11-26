@@ -82,7 +82,7 @@
     "url": "https://github.com/hammadahmadriaz/orbit-ui.git",
     "directory": "packages/ui"
   },
-  "homepage": "https://orbitui.dev",
+  "homepage": "https://hammadahmadriaz.github.io/orbit-ui/",
   "publishConfig": {
     "access": "public"
   }

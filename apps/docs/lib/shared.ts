@@ -7,3 +7,6 @@ export const gitConfig = {
   repo: 'orbit-ui',
   branch: 'main',
 };
+
+export const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+export const docsUrl = 'https://hammadahmadriaz.github.io/orbit-ui/';

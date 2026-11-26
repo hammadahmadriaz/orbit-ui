@@ -1,0 +1,136 @@
+---
+title: Dropdown
+description: A menu of actions that opens from a button.
+---
+
+<Preview>
+  <Dropdown>
+    <DropdownTrigger variant="outline">Options</DropdownTrigger>
+    <DropdownMenu>
+      <DropdownLabel>Project</DropdownLabel>
+      <DropdownItem>Edit</DropdownItem>
+      <DropdownItem>Duplicate</DropdownItem>
+      <DropdownItem>Share</DropdownItem>
+      <DropdownSeparator />
+      <DropdownItem danger>Delete</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownLabel,
+  DropdownMenu,
+  DropdownSeparator,
+  DropdownTrigger,
+} from "@orbitdesign/ui/react";
+
+<Dropdown>
+  <DropdownTrigger variant="outline">Options</DropdownTrigger>
+  <DropdownMenu>
+    <DropdownLabel>Project</DropdownLabel>
+    <DropdownItem onSelect={() => edit()}>Edit</DropdownItem>
+    <DropdownItem>Duplicate</DropdownItem>
+    <DropdownItem>Share</DropdownItem>
+    <DropdownSeparator />
+    <DropdownItem danger>Delete</DropdownItem>
+  </DropdownMenu>
+</Dropdown>
+```
+
+Closes on outside click, <kbd>Esc</kbd> and after choosing an item. Arrow keys move between items.
+
+</Tab>
+<Tab value="HTML">
+
+No JavaScript needed, it uses `<details>`:
+
+```html
+<details class="dropdown">
+  <summary class="btn btn-outline">Options</summary>
+  <ul class="dropdown-content menu">
+    <li class="menu-label">Project</li>
+    <li><a class="menu-item" href="/edit">Edit</a></li>
+    <li><button class="menu-item">Duplicate</button></li>
+    <li class="menu-divider"></li>
+    <li><button class="menu-item menu-item-danger">Delete</button></li>
+  </ul>
+</details>
+```
+
+</Tab>
+</Tabs>
+
+## Placement
+
+<Preview>
+  <Dropdown align="end">
+    <DropdownTrigger>Align end</DropdownTrigger>
+    <DropdownMenu>
+      <DropdownItem>Profile</DropdownItem>
+      <DropdownItem>Settings</DropdownItem>
+      <DropdownItem>Sign out</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+  <Dropdown side="top">
+    <DropdownTrigger color="primary">Open upwards</DropdownTrigger>
+    <DropdownMenu>
+      <DropdownItem>One</DropdownItem>
+      <DropdownItem>Two</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+</Preview>
+
+```tsx
+<Dropdown align="end">...</Dropdown>
+<Dropdown side="top">...</Dropdown>
+```
+
+```html
+<details class="dropdown dropdown-end">...</details>
+<details class="dropdown dropdown-top">...</details>
+```
+
+## Props
+
+### Dropdown
+
+<TypeTable
+  type={{
+    open: { type: "boolean", description: "Controlled open state." },
+    defaultOpen: { type: "boolean", default: "false" },
+    onOpenChange: { type: "(open: boolean) => void" },
+    align: { type: '"start" | "end"', default: '"start"' },
+    side: { type: '"bottom" | "top"', default: '"bottom"' },
+  }}
+/>
+
+`DropdownTrigger` accepts every [Button](/docs/components/button) prop.
+
+### DropdownItem
+
+<TypeTable
+  type={{
+    onSelect: { type: "() => void", description: "Called when chosen. The menu closes afterwards." },
+    danger: { type: "boolean", description: "Red, for destructive actions." },
+    disabled: { type: "boolean" },
+  }}
+/>
+
+## Classes
+
+| Class | Description |
+| --- | --- |
+| `dropdown` | Wrapper (a `<details>` for CSS only use) |
+| `dropdown-content` | The floating panel |
+| `dropdown-end` `dropdown-top` | Placement |
+| `menu` | Vertical list |
+| `menu-item` | Clickable row |
+| `menu-item-danger` | Destructive row |
+| `menu-label` | Small heading |
+| `menu-divider` | Separator line |

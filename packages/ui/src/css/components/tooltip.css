@@ -1,0 +1,120 @@
+/*
+ * Tooltip (CSS only, shows on hover and keyboard focus)
+ * Classes:   tooltip tooltip-content tooltip-open
+ * Positions: tooltip-top (default) tooltip-bottom tooltip-left tooltip-right
+ * Colors:    tooltip-primary tooltip-secondary tooltip-accent tooltip-info tooltip-success tooltip-warning tooltip-error
+ *
+ * Two ways to write it:
+ *   <span class="tooltip" data-tip="Copy">...</span>
+ *   <span class="tooltip">...<span class="tooltip-content" role="tooltip">Rich <b>content</b></span></span>
+ */
+
+@utility tooltip {
+  position: relative;
+  display: inline-flex;
+
+  & > .tooltip-content,
+  &[data-tip]::after {
+    position: absolute;
+    z-index: 50;
+    inset: var(--tt-top, auto) var(--tt-right, auto) var(--tt-bottom, calc(100% + 8px))
+      var(--tt-left, 50%);
+    width: max-content;
+    max-width: 18rem;
+    padding: 0.375rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    white-space: normal;
+    pointer-events: none;
+    border-radius: var(--radius-field);
+    background-color: var(--tooltip-bg, var(--color-neutral));
+    color: var(--tooltip-fg, var(--color-neutral-content));
+    box-shadow:
+      0 4px 14px oklch(0% 0 0 / 0.18),
+      0 0 calc(var(--oui-glow) * 12px)
+        color-mix(in oklch, var(--tooltip-bg, var(--color-primary)) calc(var(--oui-glow) * 50%), transparent);
+    opacity: 0;
+    visibility: hidden;
+    transform: translate(var(--tt-x, -50%), var(--tt-y, 0))
+      translate(var(--tt-ox, 0), var(--tt-oy, 4px));
+    transition:
+      opacity 150ms ease,
+      transform 150ms ease,
+      visibility 150ms;
+  }
+  &[data-tip]::after {
+    content: attr(data-tip);
+  }
+
+  &:hover > .tooltip-content,
+  &:focus-within > .tooltip-content,
+  &.tooltip-open > .tooltip-content,
+  &[data-tip]:hover::after,
+  &[data-tip]:focus-within::after,
+  &[data-tip].tooltip-open::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(var(--tt-x, -50%), var(--tt-y, 0));
+    transition-delay: var(--tt-delay, 120ms);
+  }
+}
+
+@utility tooltip-top {
+  --tt-top: auto;
+  --tt-bottom: calc(100% + 8px);
+}
+@utility tooltip-bottom {
+  --tt-top: calc(100% + 8px);
+  --tt-bottom: auto;
+  --tt-oy: -4px;
+}
+@utility tooltip-left {
+  --tt-top: 50%;
+  --tt-bottom: auto;
+  --tt-left: auto;
+  --tt-right: calc(100% + 8px);
+  --tt-x: 0;
+  --tt-y: -50%;
+  --tt-ox: 4px;
+  --tt-oy: 0;
+}
+@utility tooltip-right {
+  --tt-top: 50%;
+  --tt-bottom: auto;
+  --tt-left: calc(100% + 8px);
+  --tt-x: 0;
+  --tt-y: -50%;
+  --tt-ox: -4px;
+  --tt-oy: 0;
+}
+
+@utility tooltip-primary {
+  --tooltip-bg: var(--color-primary);
+  --tooltip-fg: var(--color-primary-content);
+}
+@utility tooltip-secondary {
+  --tooltip-bg: var(--color-secondary);
+  --tooltip-fg: var(--color-secondary-content);
+}
+@utility tooltip-accent {
+  --tooltip-bg: var(--color-accent);
+  --tooltip-fg: var(--color-accent-content);
+}
+@utility tooltip-info {
+  --tooltip-bg: var(--color-info);
+  --tooltip-fg: var(--color-info-content);
+}
+@utility tooltip-success {
+  --tooltip-bg: var(--color-success);
+  --tooltip-fg: var(--color-success-content);
+}
+@utility tooltip-warning {
+  --tooltip-bg: var(--color-warning);
+  --tooltip-fg: var(--color-warning-content);
+}
+@utility tooltip-error {
+  --tooltip-bg: var(--color-error);
+  --tooltip-fg: var(--color-error-content);
+}

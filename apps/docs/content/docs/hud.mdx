@@ -1,0 +1,102 @@
+---
+title: HUD Theme
+description: A futuristic heads-up display look with glowing light, sharp corners and scan lines.
+icon: ScanLine
+---
+
+The `hud` theme turns every component into a sci-fi control panel: deep navy surfaces, cyan light, sharp corners and a soft glow on buttons, badges, cards, toggles and progress bars.
+
+<HudShowcase />
+
+## Turn it on
+
+```html
+<html data-theme="hud">
+```
+
+Or only for one section:
+
+```html
+<section data-theme="hud">...</section>
+```
+
+Nothing else changes in your code. Components glow automatically because the theme sets `--oui-glow: 1`.
+
+## HUD effects
+
+These classes add the details. They use the theme's `primary` color, so they work in every theme and look best in `hud`.
+
+| Class | What it does |
+| --- | --- |
+| `hud-frame` | Corner brackets, like a targeting frame |
+| `hud-scan` | A light line that sweeps from top to bottom |
+| `hud-grid` | Blueprint style grid background |
+| `hud-glow` | Glowing outline in the primary color |
+| `text-glow` | Glowing text in the current text color |
+| `clip-corner` | Cut corners (top left and bottom right) |
+
+<Preview>
+  <div data-theme="hud" className="card hud-frame hud-scan hud-grid w-72">
+    <div className="card-body">
+      <span className="text-xs tracking-[0.3em] text-primary text-glow">SYSTEM STATUS</span>
+      <span className="text-2xl font-semibold">All systems online</span>
+      <Progress value={82} color="primary" />
+    </div>
+  </div>
+</Preview>
+
+```html
+<div data-theme="hud" class="card hud-frame hud-scan hud-grid">
+  <div class="card-body">
+    <span class="text-primary text-glow">SYSTEM STATUS</span>
+    <span class="text-2xl font-semibold">All systems online</span>
+    <progress class="progress" value="82" max="100"></progress>
+  </div>
+</div>
+```
+
+### Fine tuning
+
+| Variable | Default | Used by |
+| --- | --- | --- |
+| `--frame-c` | primary color | `hud-frame` bracket color |
+| `--frame-s` | `14px` | `hud-frame` bracket length |
+| `--frame-w` | `2px` | `hud-frame` bracket thickness |
+| `--scan-speed` | `3.5s` | `hud-scan` sweep duration |
+| `--grid-size` | `24px` | `hud-grid` cell size |
+| `--clip` | `10px` | `clip-corner` cut size |
+| `--oui-glow` | `0` (`1` in hud) | Glow strength of all components |
+
+```html
+<div class="card hud-frame [--frame-s:24px] [--frame-c:var(--color-secondary)]">...</div>
+```
+
+## Glow in any theme
+
+Want the glow without the hud colors? Set the variable yourself:
+
+```css
+[data-theme="dark"] {
+  --oui-glow: 0.6;
+}
+```
+
+## Orbit loader
+
+A spinner with rotating rings and a glowing core:
+
+<Preview>
+  <div data-theme="hud" className="flex items-center gap-6 rounded-box bg-base-100 p-6">
+    <Spinner variant="orbit" size="lg" className="text-primary" />
+    <Spinner variant="orbit" size="lg" className="text-secondary" />
+    <Spinner variant="orbit" size="lg" className="text-accent" />
+  </div>
+</Preview>
+
+```tsx
+<Spinner variant="orbit" size="lg" className="text-primary" />
+```
+
+```html
+<span class="spinner spinner-orbit spinner-lg text-primary" role="status" aria-label="Loading"></span>
+```

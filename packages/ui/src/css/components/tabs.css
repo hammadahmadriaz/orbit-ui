@@ -1,0 +1,131 @@
+/*
+ * Tabs
+ * Classes:  tabs tab tab-active tab-panel
+ * Variants: tabs-line tabs-boxed tabs-pill (put on the tabs container)
+ * Colors:   tabs-primary tabs-secondary tabs-accent tabs-neutral
+ * Sizes:    tabs-sm tabs-md tabs-lg
+ * A tab is active when it has aria-selected="true" or the tab-active class.
+ */
+
+@utility tabs {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--tabs-gap, 0.25rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+@utility tab {
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: var(--tab-h, 2.25rem);
+  padding-inline: var(--tab-px, 0.875rem);
+  font-size: var(--tab-fs, 0.875rem);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 0;
+  border-radius: var(--tab-radius, var(--radius-field));
+  background-color: transparent;
+  color: color-mix(in oklch, var(--color-base-content) 62%, transparent);
+  transition:
+    color 150ms,
+    background-color 150ms,
+    box-shadow 200ms;
+
+  &:hover {
+    color: var(--color-base-content);
+  }
+  &:focus-visible {
+    outline: 2px solid var(--tab-color, var(--color-primary));
+    outline-offset: -2px;
+  }
+  &:disabled,
+  &[aria-disabled="true"] {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+  &[aria-selected="true"],
+  &.tab-active {
+    color: var(--tab-active-fg, var(--color-base-content));
+    background-color: var(--tab-active-bg, transparent);
+    box-shadow: var(--tab-active-shadow, none);
+  }
+}
+
+@utility tab-panel {
+  padding-top: 1rem;
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 4px;
+    border-radius: var(--radius-field);
+  }
+}
+
+/* Variants */
+@utility tabs-line {
+  --tabs-gap: 0;
+  --tab-radius: 0;
+  --tab-active-fg: var(--tab-color, var(--color-primary));
+  --tab-active-shadow: inset 0 -2px 0 var(--tab-color, var(--color-primary)),
+    0 6px 14px -8px
+      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 90%), transparent);
+  border-bottom: var(--oui-border) solid var(--color-base-300);
+}
+@utility tabs-boxed {
+  --tab-active-bg: var(--color-base-100);
+  --tab-active-shadow: 0 1px 3px oklch(0% 0 0 / 0.12),
+    0 0 calc(var(--oui-glow) * 12px)
+      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 40%), transparent);
+  padding: 0.25rem;
+  border-radius: calc(var(--radius-field) + 0.25rem);
+  background-color: var(--color-base-200);
+}
+@utility tabs-pill {
+  --tab-radius: var(--radius-selector);
+  --tab-active-bg: var(--tab-color, var(--color-primary));
+  --tab-active-fg: var(--tab-color-fg, var(--color-primary-content));
+  --tab-active-shadow: 0 0 calc(var(--oui-glow) * 14px)
+    color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 50%), transparent);
+}
+
+/* Colors */
+@utility tabs-primary {
+  --tab-color: var(--color-primary);
+  --tab-color-fg: var(--color-primary-content);
+}
+@utility tabs-secondary {
+  --tab-color: var(--color-secondary);
+  --tab-color-fg: var(--color-secondary-content);
+}
+@utility tabs-accent {
+  --tab-color: var(--color-accent);
+  --tab-color-fg: var(--color-accent-content);
+}
+@utility tabs-neutral {
+  --tab-color: var(--color-neutral);
+  --tab-color-fg: var(--color-neutral-content);
+}
+
+/* Sizes */
+@utility tabs-sm {
+  --tab-h: 1.875rem;
+  --tab-px: 0.625rem;
+  --tab-fs: 0.8125rem;
+}
+@utility tabs-md {
+  --tab-h: 2.25rem;
+  --tab-px: 0.875rem;
+  --tab-fs: 0.875rem;
+}
+@utility tabs-lg {
+  --tab-h: 2.75rem;
+  --tab-px: 1.125rem;
+  --tab-fs: 1rem;
+}

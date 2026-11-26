@@ -38,3 +38,45 @@
 @utility spinner-lg {
   --spinner-size: 2rem;
 }
+
+/* Orbit: three rings spinning in different directions, with a glowing core. */
+@utility spinner-orbit {
+  position: relative;
+  border-width: calc(var(--spinner-size, 1.25rem) * 0.06);
+  border-color: currentColor transparent currentColor transparent;
+  animation-duration: 1.4s;
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    border-radius: 9999px;
+  }
+  &::before {
+    inset: 16%;
+    border: calc(var(--spinner-size, 1.25rem) * 0.05) dashed currentColor;
+    opacity: 0.7;
+    animation: oui-spin-reverse 2.2s linear infinite;
+  }
+  &::after {
+    inset: 36%;
+    background-color: currentColor;
+    box-shadow: 0 0 calc(var(--spinner-size, 1.25rem) * 0.3) currentColor;
+    animation: oui-core-pulse 1.4s ease-in-out infinite;
+  }
+}
+
+@keyframes oui-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes oui-core-pulse {
+  0%, 100% {
+    transform: scale(0.8);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}

@@ -1,0 +1,166 @@
+/*
+ * Animations, GSAP style, in pure CSS. No JavaScript needed.
+ *
+ * Entrances: animate-fade-in animate-fade-up animate-fade-down animate-slide-in-left
+ *            animate-slide-in-right animate-zoom-in animate-blur-in animate-flip-in animate-pop
+ * Loops:     animate-float animate-glow-pulse animate-glitch animate-shimmer animate-shake
+ * Control:   anim-delay-<ms> anim-duration-<ms> stagger stagger-<ms> reveal
+ *
+ * They are Tailwind theme animations, so variants work: hover:animate-shake, md:animate-fade-up.
+ */
+
+@theme {
+  --animate-fade-in: oui-fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-up: oui-fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-fade-down: oui-fade-down 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-left: oui-slide-in-left 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-slide-in-right: oui-slide-in-right 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-zoom-in: oui-zoom-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-blur-in: oui-blur-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-flip-in: oui-flip-in 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-pop: oui-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  --animate-float: oui-float 4s ease-in-out infinite;
+  --animate-glow-pulse: oui-glow-pulse 2.4s ease-in-out infinite;
+  --animate-glitch: oui-glitch 2.5s steps(1) infinite;
+  --animate-shimmer: oui-shimmer 2s linear infinite;
+  --animate-shake: oui-shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+
+  @keyframes oui-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes oui-fade-up {
+    from { opacity: 0; transform: translateY(var(--anim-distance, 24px)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes oui-fade-down {
+    from { opacity: 0; transform: translateY(calc(var(--anim-distance, 24px) * -1)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes oui-slide-in-left {
+    from { opacity: 0; transform: translateX(calc(var(--anim-distance, 40px) * -1)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes oui-slide-in-right {
+    from { opacity: 0; transform: translateX(var(--anim-distance, 40px)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes oui-zoom-in {
+    from { opacity: 0; transform: scale(0.85); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes oui-blur-in {
+    from { opacity: 0; filter: blur(12px); transform: scale(1.04); }
+    to { opacity: 1; filter: blur(0); transform: none; }
+  }
+  @keyframes oui-flip-in {
+    from { opacity: 0; transform: perspective(800px) rotateX(-70deg); }
+    to { opacity: 1; transform: perspective(800px) rotateX(0); }
+  }
+  @keyframes oui-pop {
+    0% { opacity: 0; transform: scale(0.6); }
+    100% { opacity: 1; transform: none; }
+  }
+  @keyframes oui-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  @keyframes oui-glow-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in oklch, var(--color-primary) 0%, transparent); }
+    50% { box-shadow: 0 0 24px 2px color-mix(in oklch, var(--color-primary) 55%, transparent); }
+  }
+  @keyframes oui-glitch {
+    0%, 86%, 100% { transform: none; clip-path: none; }
+    88% { transform: translate(-3px, 1px); clip-path: inset(10% 0 55% 0); }
+    90% { transform: translate(3px, -1px); clip-path: inset(60% 0 8% 0); }
+    92% { transform: translate(-2px, 0); clip-path: inset(30% 0 40% 0); }
+    94% { transform: none; clip-path: none; }
+  }
+  @keyframes oui-shimmer {
+    from { background-position: -200% 0; }
+    to { background-position: 200% 0; }
+  }
+  @keyframes oui-shake {
+    10%, 90% { transform: translateX(-1px); }
+    20%, 80% { transform: translateX(2px); }
+    30%, 50%, 70% { transform: translateX(-4px); }
+    40%, 60% { transform: translateX(4px); }
+  }
+}
+
+/* anim-delay-300 = 300ms delay, anim-duration-1200 = 1.2s */
+/* "&&" doubles the specificity so these win over the animate-* shorthand. */
+@utility anim-delay-* {
+  && {
+    animation-delay: calc(--value(integer) * 1ms);
+  }
+}
+@utility anim-duration-* {
+  && {
+    animation-duration: calc(--value(integer) * 1ms);
+  }
+}
+
+/* Children animate one after another, like a GSAP stagger. */
+@utility stagger {
+  && > * {
+    animation-delay: calc(var(--stagger-i, 0) * var(--stagger, 80ms));
+  }
+  & > :nth-child(2) { --stagger-i: 1; }
+  & > :nth-child(3) { --stagger-i: 2; }
+  & > :nth-child(4) { --stagger-i: 3; }
+  & > :nth-child(5) { --stagger-i: 4; }
+  & > :nth-child(6) { --stagger-i: 5; }
+  & > :nth-child(7) { --stagger-i: 6; }
+  & > :nth-child(8) { --stagger-i: 7; }
+  & > :nth-child(9) { --stagger-i: 8; }
+  & > :nth-child(10) { --stagger-i: 9; }
+  & > :nth-child(11) { --stagger-i: 10; }
+  & > :nth-child(12) { --stagger-i: 11; }
+}
+@utility stagger-* {
+  --stagger: calc(--value(integer) * 1ms);
+}
+
+/*
+ * Play the animation when the element scrolls into view (like ScrollTrigger).
+ * Uses CSS scroll-driven animations; older browsers just show the element.
+ */
+@utility reveal {
+  @supports (animation-timeline: view()) {
+    && {
+      animation-timeline: view();
+      animation-range: entry 0% cover 35%;
+      animation-fill-mode: both;
+      animation-duration: auto;
+    }
+  }
+}
+
+/* Shimmer needs a gradient. Use on skeletons or text: class="shimmer animate-shimmer". */
+@utility shimmer {
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklch, var(--color-base-content) 10%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+}
+
+@layer base {
+  @media (prefers-reduced-motion: reduce) {
+    [class*="animate-fade"],
+    [class*="animate-slide"],
+    [class*="animate-zoom"],
+    [class*="animate-blur"],
+    [class*="animate-flip"],
+    [class*="animate-pop"],
+    [class*="animate-float"],
+    [class*="animate-glitch"],
+    [class*="animate-shake"] {
+      animation-duration: 1ms !important;
+      animation-iteration-count: 1 !important;
+    }
+  }
+}

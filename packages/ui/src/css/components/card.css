@@ -15,7 +15,9 @@
   color: var(--color-base-content);
   box-shadow:
     0 1px 2px oklch(0% 0 0 / 0.04),
-    0 4px 16px oklch(0% 0 0 / 0.04);
+    0 4px 16px oklch(0% 0 0 / 0.04),
+    0 0 calc(var(--oui-glow) * 28px)
+      color-mix(in oklch, var(--color-primary) calc(var(--oui-glow) * 14%), transparent);
 }
 
 @utility card-body {

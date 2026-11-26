@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security problem
+    url: https://github.com/hammadahmadriaz/orbit-ui/security/advisories/new
+    about: Report security issues privately, never in a public issue.
+  - name: Documentation
+    url: https://hammadahmadriaz.github.io/orbit-ui/
+    about: Check the docs first, your answer may already be there.

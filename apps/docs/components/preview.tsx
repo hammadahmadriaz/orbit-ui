@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-const themes = ['auto', 'light', 'dark', 'corporate', 'forest'] as const;
+const themes = ['auto', 'light', 'dark', 'hud', 'corporate', 'forest'] as const;
 type Theme = (typeof themes)[number];
 
 /** Follows the docs light/dark toggle (the `dark` class on <html>). */
@@ -40,8 +40,8 @@ export function Preview({ children, align = 'center', className }: PreviewProps)
         : 'flex flex-wrap items-center justify-center gap-3';
 
   return (
-    <div className="not-prose my-4 overflow-hidden rounded-xl border border-fd-border">
-      <div className="flex items-center justify-end gap-1 border-b border-fd-border bg-fd-muted/40 px-2 py-1.5">
+    <div className="not-prose my-4 rounded-xl border border-fd-border">
+      <div className="flex items-center justify-end gap-1 rounded-t-xl border-b border-fd-border bg-fd-muted/40 px-2 py-1.5">
         {themes.map((t) => (
           <button
             key={t}
@@ -56,7 +56,7 @@ export function Preview({ children, align = 'center', className }: PreviewProps)
           </button>
         ))}
       </div>
-      <div data-theme={resolved} className="bg-base-100 text-base-content px-6 py-10">
+      <div data-theme={resolved} className="rounded-b-xl bg-base-100 text-base-content px-6 py-10">
         <div className={`${layout} ${className ?? ''}`}>{children}</div>
       </div>
     </div>
