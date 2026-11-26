@@ -1,23 +1,76 @@
 /*
  * Card
  * Classes:   card card-body card-title card-description card-actions card-media
- * Modifiers: card-compact card-flat card-side
+ * Modifiers: card-compact card-side card-framed card-interactive
+ * Elevation: card-flat (0) default (1) card-raised (2) card-floating (3)
+ * Vars:      --card-p --card-radius --card-elevation (public)
  */
 
 @utility card {
+  --_glow: var(--orbit-glow, var(--oui-glow, 0));
+  --_elev: calc(var(--card-elevation, 1) + var(--orbit-depth) * var(--_hover, 0) * 2);
+  --_frame-c: color-mix(in oklch, var(--color-primary) 85%, transparent);
   position: relative;
+  isolation: isolate;
   display: flex;
   flex-direction: column;
   overflow: hidden;
   border: var(--oui-border) solid var(--color-base-300);
-  border-radius: var(--radius-box);
+  border-radius: var(--card-radius, var(--radius-box));
   background-color: var(--color-base-100);
   color: var(--color-base-content);
   box-shadow:
-    0 1px 2px oklch(0% 0 0 / 0.04),
-    0 4px 16px oklch(0% 0 0 / 0.04),
-    0 0 calc(var(--oui-glow) * 28px)
-      color-mix(in oklch, var(--color-primary) calc(var(--oui-glow) * 14%), transparent);
+    0 calc(var(--_elev) * 1px) calc(var(--_elev) * 2px) oklch(0% 0 0 / calc(var(--_elev) * 0.04)),
+    0 calc(var(--_elev) * 4px) calc(var(--_elev) * 16px) oklch(0% 0 0 / calc(var(--_elev) * 0.045)),
+    0 0 calc(var(--_glow) * 28px)
+      color-mix(in oklch, var(--color-primary) calc(var(--_glow) * 14%), transparent);
+  transition:
+    box-shadow var(--orbit-duration) var(--orbit-ease),
+    transform var(--orbit-duration) var(--orbit-ease),
+    border-color var(--orbit-duration) var(--orbit-ease);
+
+  /* Ambient light (holo): follows the pointer via --orbit-mx / --orbit-my. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      28rem circle at var(--orbit-mx, 50%) var(--orbit-my, 0%),
+      color-mix(in oklch, var(--color-primary) 16%, transparent),
+      transparent 60%
+    );
+    opacity: 0;
+    transition: opacity calc(var(--orbit-duration) * 1.5) var(--orbit-ease);
+  }
+  /* HUD corner indicators (holo on hover, or always with card-framed). */
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    z-index: 2;
+    pointer-events: none;
+    background-image: linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c)), linear-gradient(var(--_frame-c), var(--_frame-c));
+    background-size:
+      14px 2px, 2px 14px, 14px 2px, 2px 14px,
+      14px 2px, 2px 14px, 14px 2px, 2px 14px;
+    background-position:
+      top left, top left, top right, top right,
+      bottom left, bottom left, bottom right, bottom right;
+    background-repeat: no-repeat;
+    opacity: max(var(--_frame-on, 0), var(--_hover, 0) * var(--orbit-holo));
+    transform: scale(calc(1 + (1 - max(var(--_frame-on, 0), var(--_hover, 0))) * 0.04));
+    transition:
+      opacity var(--orbit-duration) var(--orbit-ease),
+      transform calc(var(--orbit-duration) * 1.4) var(--orbit-ease);
+  }
+  &:hover {
+    --_hover: 1;
+  }
+  &:hover::before {
+    opacity: var(--orbit-ambient);
+  }
 }
 
 @utility card-body {
@@ -63,7 +116,35 @@
 }
 
 @utility card-flat {
-  box-shadow: none;
+  --card-elevation: 0;
+}
+@utility card-raised {
+  --card-elevation: 2;
+}
+@utility card-floating {
+  --card-elevation: 3;
+}
+
+/* Always show the HUD corner indicators. */
+@utility card-framed {
+  --_frame-on: 1;
+}
+
+/*
+ * Interactive cards lift (enhanced, holo) and tilt toward the pointer (holo).
+ * The React Card sets --orbit-tx / --orbit-ty on pointer move.
+ */
+@utility card-interactive {
+  cursor: pointer;
+  transform: perspective(900px)
+    translateY(calc(var(--orbit-depth) * var(--_hover, 0) * -3px))
+    rotateX(calc(var(--orbit-ty, 0deg) * var(--orbit-ambient)))
+    rotateY(calc(var(--orbit-tx, 0deg) * var(--orbit-ambient)));
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 3px;
+    --_hover: 1;
+  }
 }
 
 @utility card-side {

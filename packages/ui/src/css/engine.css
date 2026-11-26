@@ -1,0 +1,139 @@
+/*
+ * Orbit Interaction Engine
+ *
+ * Colors come from data-theme. Behaviour comes from data-orbit-mode.
+ * A mode is only a set of the engine tokens below; components read them.
+ * Effects are gated by multiplying with these numbers, so a token of 0 turns
+ * an effect off (an animation with 0s duration does not run at all).
+ *
+ * Modes: standard (default), enhanced, holo, custom.
+ * The hud theme uses holo unless a data-orbit-mode attribute says otherwise.
+ *
+ * Public tokens (documented on the Interaction Engine docs page):
+ *   --orbit-duration   base transition time
+ *   --orbit-ease       base easing
+ *   --orbit-intensity  0..1 master strength of non-glow effects
+ *   --orbit-glow       0..1 glow strength
+ *   --orbit-depth      0..1 lift and elevation on interaction
+ *   --orbit-scan       0 or 1, scanning effects
+ *   --orbit-energy     0 or 1, energy and charge effects
+ *   --orbit-ambient    0 or 1, pointer reactive light and tilt
+ *   --orbit-holo       0 or 1, holographic layers (frames, depth planes)
+ *   --orbit-press      scale applied while pressing
+ */
+
+@layer base {
+  /* standard: the default, looks exactly like Orbit UI 0.2 */
+  :root,
+  [data-orbit-mode="standard"] {
+    --orbit-duration: 150ms;
+    --orbit-ease: ease;
+    --orbit-intensity: 0;
+    --orbit-depth: 0;
+    --orbit-scan: 0;
+    --orbit-energy: 0;
+    --orbit-ambient: 0;
+    --orbit-holo: 0;
+    --orbit-press: 0.97;
+  }
+  [data-orbit-mode="standard"] {
+    --orbit-glow: 0;
+  }
+
+  /* enhanced: refined motion, depth and focus feedback, no sci-fi effects */
+  [data-orbit-mode="enhanced"] {
+    --orbit-duration: 180ms;
+    --orbit-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --orbit-intensity: 0.5;
+    --orbit-glow: 0;
+    --orbit-depth: 0.6;
+    --orbit-scan: 0;
+    --orbit-energy: 0;
+    --orbit-ambient: 0;
+    --orbit-holo: 0;
+    --orbit-press: 0.97;
+  }
+
+  /* holo: futuristic HUD behaviour, each component has its own effect */
+  [data-orbit-mode="holo"],
+  [data-theme="hud"]:not([data-orbit-mode]) {
+    --orbit-duration: 220ms;
+    --orbit-ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --orbit-intensity: 1;
+    --orbit-glow: 0.6;
+    --orbit-depth: 0.8;
+    --orbit-scan: 1;
+    --orbit-energy: 1;
+    --orbit-ambient: 1;
+    --orbit-holo: 1;
+    --orbit-press: 0.96;
+  }
+
+  /* custom: starts from the inherited values, set any token yourself. */
+
+  /*
+   * Reduced motion: stop every moving effect. Static glow and depth stay,
+   * they are not motion. Wins over props because inline styles are not !important.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    :root,
+    [data-orbit-mode],
+    [data-theme],
+    [style*="--orbit-"] {
+      --orbit-duration: 0ms !important;
+      --orbit-scan: 0 !important;
+      --orbit-energy: 0 !important;
+      --orbit-ambient: 0 !important;
+      --orbit-press: 1 !important;
+    }
+  }
+}
+
+/* Shared keyframes used by several components. */
+@keyframes orbit-sweep {
+  from {
+    background-position: -150% 0;
+  }
+  to {
+    background-position: 250% 0;
+  }
+}
+@keyframes orbit-pulse-ring {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+@keyframes orbit-press-wave {
+  from {
+    opacity: 0.45;
+    transform: scale(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+@keyframes orbit-charge {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+@keyframes orbit-shake {
+  15%, 85% {
+    transform: translateX(-2px);
+  }
+  30%, 70% {
+    transform: translateX(4px);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+}

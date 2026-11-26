@@ -164,6 +164,67 @@ import Link from "next/link";
 </Button>
 ```
 
+## Interaction modes
+
+Each mode changes how the button reacts. Hover, press and Tab to it.
+
+<ModeCompare>
+  <Button color="primary">Engage</Button>
+  <Button color="secondary" variant="outline">Override</Button>
+  <Button loading>Charging</Button>
+</ModeCompare>
+
+In **holo** mode the button behaves like a control panel switch:
+
+- **Energy line**: on hover, a line of light extends along the bottom edge.
+- **Press wave**: a pulse spreads out from the exact point you pressed.
+- **Target lock**: on keyboard focus, the focus ring closes in on the button.
+- **Charge bar**: while `loading`, a charge runs across the bottom edge.
+- **Glow**: soft light in the button color, stronger on hover.
+
+In **enhanced** mode the button lifts on hover with a colored shadow. **Standard** keeps the simple 0.2 behaviour.
+
+```tsx
+<Button color="primary" mode="holo">Engage</Button>
+<Button color="primary" mode="holo" glow={0.9} effects={{ energy: false }}>Glow only</Button>
+<Button color="primary" mode="enhanced" motion={{ duration: 300 }}>Slow lift</Button>
+```
+
+```html
+<div data-orbit-mode="holo">
+  <button class="btn btn-primary">Engage</button>
+</div>
+```
+
+## Custom styling
+
+Props, classes, styles and variables all combine:
+
+<Preview mode="holo" theme="hud">
+  <Button color="primary" variant="outline" glow={0.8} radius={20} className="px-8 tracking-widest uppercase">Custom</Button>
+</Preview>
+
+```tsx
+<Button
+  mode="holo"
+  variant="outline"
+  color="primary"
+  glow={0.8}
+  radius={20}
+  className="px-8 tracking-widest uppercase"
+/>
+```
+
+```css
+/* Every button in your app */
+@layer components {
+  .btn {
+    --btn-radius: 12px;
+    --btn-fs: 0.9375rem;
+  }
+}
+```
+
 ## Props
 
 <TypeTable
@@ -175,6 +236,11 @@ import Link from "next/link";
     block: { type: "boolean", description: "Full width." },
     loading: { type: "boolean", description: "Shows a spinner and disables the button." },
     asChild: { type: "boolean", description: "Apply the styles to the child element instead of rendering a button." },
+    radius: { type: "number | string", description: "Corner radius. Number = px. Sets --btn-radius." },
+    mode: { type: '"standard" | "enhanced" | "holo" | "custom"', description: "Interaction mode. Inherited when omitted." },
+    glow: { type: "boolean | number", description: "Glow strength 0 to 1." },
+    effects: { type: "OrbitEffects", description: "depth, scan (focus lock), energy (energy line, press wave, charge bar)." },
+    motion: { type: "OrbitMotion", description: "duration, easing, press scale." },
   }}
 />
 
@@ -190,6 +256,7 @@ Also accepts every native `<button>` attribute.
 | `btn-xs` `btn-sm` `btn-md` `btn-lg` `btn-xl` | Size |
 | `btn-square` `btn-circle` | Equal width and height |
 | `btn-block` `btn-wide` | Width |
+| `btn-loading` | Loading state (charge bar in holo) |
 
 ## CSS variables
 
@@ -198,5 +265,15 @@ Also accepts every native `<button>` attribute.
 | `--btn-h` | `2.5rem` | Height |
 | `--btn-px` | `1rem` | Horizontal padding |
 | `--btn-fs` | `0.875rem` | Font size |
+| `--btn-radius` | `--radius-field` | Corner radius |
 | `--btn-color` | none | Main color, set by color classes |
 | `--btn-fg` | none | Text color on solid buttons |
+
+Engine variables (`--orbit-*`) are listed on the [Interaction Engine](/docs/interaction-engine) page.
+
+## Accessibility
+
+- Renders a native `<button type="button">`, so Enter and Space work.
+- `loading` sets `disabled` and `aria-busy="true"`.
+- Icon only buttons (`shape="square"` or `"circle"`) need an `aria-label`.
+- All motion stops when the user prefers reduced motion.

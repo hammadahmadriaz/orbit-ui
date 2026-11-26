@@ -33,8 +33,8 @@
     color: var(--tooltip-fg, var(--color-neutral-content));
     box-shadow:
       0 4px 14px oklch(0% 0 0 / 0.18),
-      0 0 calc(var(--oui-glow) * 12px)
-        color-mix(in oklch, var(--tooltip-bg, var(--color-primary)) calc(var(--oui-glow) * 50%), transparent);
+      0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 12px)
+        color-mix(in oklch, var(--tooltip-bg, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 50%), transparent);
     opacity: 0;
     visibility: hidden;
     transform: translate(var(--tt-x, -50%), var(--tt-y, 0))

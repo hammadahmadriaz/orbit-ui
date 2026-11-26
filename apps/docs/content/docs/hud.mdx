@@ -20,7 +20,7 @@ Or only for one section:
 <section data-theme="hud">...</section>
 ```
 
-Nothing else changes in your code. Components glow automatically because the theme sets `--oui-glow: 1`.
+Nothing else changes in your code. The hud theme switches on the [`holo` interaction mode](/docs/interaction-engine), so components glow and get their futuristic behaviour automatically. Set `data-orbit-mode="standard"` to keep the colors but calm the behaviour.
 
 ## HUD effects
 
@@ -65,19 +65,25 @@ These classes add the details. They use the theme's `primary` color, so they wor
 | `--scan-speed` | `3.5s` | `hud-scan` sweep duration |
 | `--grid-size` | `24px` | `hud-grid` cell size |
 | `--clip` | `10px` | `clip-corner` cut size |
-| `--oui-glow` | `0` (`1` in hud) | Glow strength of all components |
+| `--orbit-glow` | `0` (`0.6` in holo) | Glow strength of all components |
 
 ```html
 <div class="card hud-frame [--frame-s:24px] [--frame-c:var(--color-secondary)]">...</div>
 ```
 
-## Glow in any theme
+## Holo behaviour in any theme
 
-Want the glow without the hud colors? Set the variable yourself:
+Want the futuristic behaviour without the hud colors? Use the mode on its own:
+
+```html
+<html data-theme="dark" data-orbit-mode="holo">
+```
+
+Or only the glow:
 
 ```css
 [data-theme="dark"] {
-  --oui-glow: 0.6;
+  --orbit-glow: 0.6;
 }
 ```
 

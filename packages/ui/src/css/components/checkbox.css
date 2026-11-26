@@ -80,8 +80,8 @@
   }
   &:checked {
     background-color: var(--check-color, var(--color-primary));
-    box-shadow: 0 0 calc(var(--oui-glow) * 12px)
-      color-mix(in oklch, var(--check-color, var(--color-primary)) calc(var(--oui-glow) * 55%), transparent);
+    box-shadow: 0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 12px)
+      color-mix(in oklch, var(--check-color, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 55%), transparent);
   }
   &:checked::before {
     transform: translateX(calc(var(--toggle-h, 1.5rem) * 0.75));

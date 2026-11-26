@@ -43,7 +43,7 @@
     color-scheme: light;
     --oui-border: 1px;
     --oui-ring: 3px;
-    /* 0 = no glow. The hud theme sets 1, and components start to glow. */
+    /* Deprecated alias of --orbit-glow (engine.css), kept until 1.0. */
     --oui-glow: 0;
   }
 
@@ -147,7 +147,7 @@
     --radius-field: 0.125rem;
     --radius-box: 0.25rem;
     --radius-selector: 0.125rem;
-    --oui-glow: 1;
+    /* Behaviour comes from engine.css: hud defaults to the holo mode. */
   }
 
   [data-theme="corporate"] {

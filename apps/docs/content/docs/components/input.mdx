@@ -50,6 +50,62 @@ import { Field, Input } from "@orbitdesign/ui/react";
 </Field>
 ```
 
+## Validation status
+
+<Preview align="stack">
+  <Field label="Username" hint="Available">
+    <Input defaultValue="hammad" status="success" />
+  </Field>
+  <Field label="Email">
+    <Input defaultValue="not-an-email" status="error" />
+  </Field>
+</Preview>
+
+```tsx
+<Input status="success" />
+<Input status="error" />   {/* also sets aria-invalid="true" */}
+```
+
+In holo mode, a field that becomes valid gives a short confirm pulse, and a field that becomes invalid shakes once.
+
+## Prefix and suffix
+
+<Preview align="stack">
+  <Field label="Website">
+    <Input prefix="https://" placeholder="orbit-ui.dev" />
+  </Field>
+  <Field label="Price">
+    <Input type="number" prefix="€" suffix="EUR" defaultValue="49" />
+  </Field>
+</Preview>
+
+```tsx
+<Input prefix="https://" placeholder="orbit-ui.dev" />
+<Input type="number" prefix="€" suffix="EUR" />
+```
+
+```html
+<div class="input">
+  <span class="input-addon">https://</span>
+  <input class="input-bare" placeholder="orbit-ui.dev" />
+</div>
+```
+
+The `ref`, `id`, `aria-*` and `Field` wiring always go to the real `<input>`. `className` and `style` go to the visible box.
+
+## Interaction modes
+
+Click into each field to see its focus behaviour.
+
+<ModeCompare>
+  <Input aria-label="Standard field" placeholder="Focus me" className="max-w-56" />
+  <Input aria-label="Second field" placeholder="And me" prefix="@" className="max-w-56" />
+</ModeCompare>
+
+- **Standard**: border color and focus ring.
+- **Enhanced**: a focus line draws in from the left along the bottom edge.
+- **Holo**: a scan light passes through the field once, the focus line draws in, and the ring glows.
+
 ## Colors and sizes
 
 <Preview align="stack">
@@ -139,6 +195,20 @@ import { Field, Select, Textarea } from "@orbitdesign/ui/react";
   }}
 />
 
+### Input extras
+
+<TypeTable
+  type={{
+    status: { type: '"success" | "error"', description: "Validation state. Overrides color. error sets aria-invalid." },
+    prefix: { type: "ReactNode", description: "Content before the text." },
+    suffix: { type: "ReactNode", description: "Content after the text." },
+    radius: { type: "number | string", description: "Corner radius. Sets --input-radius." },
+    mode: { type: "OrbitMode", description: "Interaction mode. Also glow, effects, motion." },
+  }}
+/>
+
+`Textarea` also accepts `status`.
+
 ### Field
 
 <TypeTable
@@ -159,3 +229,21 @@ import { Field, Select, Textarea } from "@orbitdesign/ui/react";
 | `input-sm` `input-md` `input-lg` | Size |
 | `input-ghost` | Borderless style |
 | `field` `field-label` `field-hint` `field-error` | Field layout |
+| `input-bare` `input-addon` | Inner input and prefix/suffix (wrapper mode) |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--input-h` | `2.5rem` | Height |
+| `--input-px` | `0.75rem` | Horizontal padding |
+| `--input-fs` | `0.875rem` | Font size |
+| `--input-radius` | `--radius-field` | Corner radius |
+| `--input-color` | primary | Focus color, set by color classes |
+
+## Accessibility
+
+- Always give an input a label: `Field label`, a `<label>`, or `aria-label`.
+- `Field` connects hint and error text with `aria-describedby`, and error sets `aria-invalid`.
+- Error messages use `role="alert"` so they are announced.
+- The error shake and confirm pulse are skipped when the user prefers reduced motion.

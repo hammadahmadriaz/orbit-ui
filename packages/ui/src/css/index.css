@@ -9,6 +9,7 @@
 @source "../../dist/react";
 
 @import "./themes.css";
+@import "./engine.css";
 
 /* components:start (kept sorted by scripts/new-component.mjs) */
 @import "./components/alert.css";

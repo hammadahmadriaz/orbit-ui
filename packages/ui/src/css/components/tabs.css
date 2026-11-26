@@ -75,14 +75,14 @@
   --tab-active-fg: var(--tab-color, var(--color-primary));
   --tab-active-shadow: inset 0 -2px 0 var(--tab-color, var(--color-primary)),
     0 6px 14px -8px
-      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 90%), transparent);
+      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 90%), transparent);
   border-bottom: var(--oui-border) solid var(--color-base-300);
 }
 @utility tabs-boxed {
   --tab-active-bg: var(--color-base-100);
   --tab-active-shadow: 0 1px 3px oklch(0% 0 0 / 0.12),
-    0 0 calc(var(--oui-glow) * 12px)
-      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 40%), transparent);
+    0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 12px)
+      color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 40%), transparent);
   padding: 0.25rem;
   border-radius: calc(var(--radius-field) + 0.25rem);
   background-color: var(--color-base-200);
@@ -91,8 +91,8 @@
   --tab-radius: var(--radius-selector);
   --tab-active-bg: var(--tab-color, var(--color-primary));
   --tab-active-fg: var(--tab-color-fg, var(--color-primary-content));
-  --tab-active-shadow: 0 0 calc(var(--oui-glow) * 14px)
-    color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--oui-glow) * 50%), transparent);
+  --tab-active-shadow: 0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 14px)
+    color-mix(in oklch, var(--tab-color, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 50%), transparent);
 }
 
 /* Colors */
