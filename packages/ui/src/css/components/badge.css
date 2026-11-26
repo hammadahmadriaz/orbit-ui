@@ -4,9 +4,11 @@
  * Colors:  badge-primary badge-secondary badge-accent badge-neutral badge-info badge-success badge-warning badge-error
  * Styles:  badge-outline badge-soft
  * Sizes:   badge-sm badge-md badge-lg
+ * Extras:  badge-pulse (live ring) badge-dot (status dot)
  */
 
 @utility badge {
+  position: relative;
   display: inline-flex;
   align-items: center;
   gap: 0.25rem;
@@ -21,8 +23,8 @@
   border-radius: var(--radius-selector);
   background-color: var(--badge-bg, var(--badge-color, var(--color-base-200)));
   color: var(--badge-text, var(--badge-fg, var(--color-base-content)));
-  box-shadow: 0 0 calc(var(--oui-glow) * 10px)
-    color-mix(in oklch, var(--badge-color, transparent) calc(var(--oui-glow) * 40%), transparent);
+  box-shadow: 0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 10px)
+    color-mix(in oklch, var(--badge-color, transparent) calc(var(--orbit-glow, var(--oui-glow, 0)) * 40%), transparent);
 }
 
 @utility badge-primary {
@@ -82,4 +84,36 @@
   --badge-h: 1.75rem;
   --badge-px: 0.75rem;
   --badge-fs: 0.875rem;
+}
+
+/* Live signal: a ring pulses out from the badge. Static for reduced motion. */
+@utility badge-pulse {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    pointer-events: none;
+    border: 1px solid var(--badge-color, currentColor);
+    animation: orbit-pulse-ring 1.8s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+/* Leading status dot. */
+@utility badge-dot {
+  &::before {
+    content: "";
+    width: 0.4375rem;
+    height: 0.4375rem;
+    flex-shrink: 0;
+    border-radius: 9999px;
+    background-color: currentColor;
+    box-shadow: 0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 8px) currentColor;
+  }
 }

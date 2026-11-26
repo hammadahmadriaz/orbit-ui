@@ -1,0 +1,162 @@
+---
+title: Interaction Engine
+description: One system that controls how every Orbit UI component moves, lights up and reacts. Four modes, fully configurable, mostly CSS.
+icon: Orbit
+---
+
+Other libraries give you styled components. Orbit UI components also **behave**: a button charges, an input boots up, a card turns into a holographic surface. The Interaction Engine controls all of that from one place.
+
+<ModeCompare>
+  <Button color="primary">Engage</Button>
+  <Input aria-label="Callsign" placeholder="Callsign" className="max-w-52" />
+  <Card interactive className="w-52">
+    <CardBody>
+      <CardTitle as="div">Hover me</CardTitle>
+      <CardDescription>Move the pointer around.</CardDescription>
+    </CardBody>
+  </Card>
+</ModeCompare>
+
+Hover, click and focus the examples above (keyboard Tab works too) to feel the difference.
+
+## Modes
+
+| Mode | Feel | What happens |
+| --- | --- | --- |
+| `standard` | Clean and professional | Color changes and short transitions. Exactly how Orbit UI 0.2 behaved. The default. |
+| `enhanced` | Polished | Elements lift with real depth, focus lines draw in, smoother easing. No sci-fi effects. |
+| `holo` | Futuristic HUD | Every component gets its own behaviour: energy lines, press waves, scans, ambient light, corner frames, glow. |
+| `custom` | Yours | Start from the inherited values and switch each effect on or off. |
+
+**Modes are independent from themes.** `data-theme` decides colors, `data-orbit-mode` decides behaviour. Holo works in the light theme, and standard works in the hud theme. The `hud` theme uses `holo` unless you set a mode.
+
+## Set a mode
+
+### With HTML (any framework)
+
+```html
+<html data-theme="dark" data-orbit-mode="holo">
+  ...
+  <!-- A calm area inside a holo page -->
+  <section data-orbit-mode="standard">...</section>
+</html>
+```
+
+### With React
+
+```tsx title="app/layout.tsx"
+import { OrbitProvider } from "@orbitdesign/ui/react";
+
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en">
+      <body>
+        <OrbitProvider mode="holo" theme="dark">
+          {children}
+        </OrbitProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+`OrbitProvider` renders a wrapper with `display: contents`, so it never changes your layout. It holds no state and runs no effects, so it is safe for server rendering.
+
+## Configure at three levels
+
+```tsx
+<OrbitProvider
+  mode="holo"                                  // 1. global
+  effects={{ glow: 0.4 }}
+  motion={{ duration: 260 }}
+  components={{
+    Button: { mode: "enhanced" },              // 2. every Button
+    Card: { effects: { ambient: false } },     //    every Card
+  }}
+>
+  <Button mode="holo" glow={0.8}>Launch</Button>  {/* 3. this one Button */}
+</OrbitProvider>
+```
+
+Every component that takes part in the engine accepts the same props:
+
+<TypeTable
+  type={{
+    mode: { type: '"standard" | "enhanced" | "holo" | "custom"', description: "Mode for this element and its children. Inherited when omitted." },
+    glow: { type: "boolean | number", description: "Glow strength 0 to 1. true = 0.6. Shortcut for effects.glow." },
+    effects: { type: "OrbitEffects", description: "{ glow, depth, scan, energy, ambient, holo }. Each can be switched on or off." },
+    motion: { type: "OrbitMotion", description: "{ duration (ms), easing, press (scale while pressing) }." },
+  }}
+/>
+
+### Effects
+
+| Effect | Used by | Description |
+| --- | --- | --- |
+| `glow` | Button, Badge, Card, Input, Tabs, Toggle, Progress, Tooltip, Dropdown, Toast | Light around the element in its own color |
+| `depth` | Button, Card | Lift and shadow on hover |
+| `scan` | Button (focus lock), Input (focus scan) | One time scan when something gets focus |
+| `energy` | Button (energy line, press wave, charge bar), Input (confirm and error feedback) | Charge and energy feedback |
+| `ambient` | Card | Light that follows the pointer, and tilt on interactive cards |
+| `holo` | Card | HUD corner indicators on hover |
+
+## Override order
+
+From weakest to strongest. Later steps always win.
+
+1. Library defaults
+2. Theme (`data-theme`)
+3. Mode and global provider settings
+4. Component defaults from `components` on the provider
+5. Instance props (`mode`, `glow`, `effects`, `motion`, `radius`)
+6. The `style` prop
+
+`className` utilities that set a normal CSS property (like `rounded-full` or `shadow-xl`) always win over component styles. A `className` that sets an engine variable (like `[--orbit-glow:1]`) loses against an instance prop for the same variable, because props are written as inline styles. Use `style` for that case.
+
+## CSS variables
+
+The engine is plain CSS. These are its public variables. Set them on any element to create your own preset.
+
+| Variable | standard | enhanced | holo | Meaning |
+| --- | --- | --- | --- | --- |
+| `--orbit-duration` | `150ms` | `180ms` | `220ms` | Base transition duration |
+| `--orbit-ease` | `ease` | smooth out | expo out | Base easing |
+| `--orbit-intensity` | `0` | `0.5` | `1` | Strength of focus lines and similar effects |
+| `--orbit-glow` | `0` | `0` | `0.6` | Glow strength, 0 to 1 |
+| `--orbit-depth` | `0` | `0.6` | `0.8` | Lift and elevation, 0 to 1 |
+| `--orbit-scan` | `0` | `0` | `1` | Scanning effects on (1) or off (0) |
+| `--orbit-energy` | `0` | `0` | `1` | Energy effects on or off |
+| `--orbit-ambient` | `0` | `0` | `1` | Pointer light and tilt on or off |
+| `--orbit-holo` | `0` | `0` | `1` | Holographic corner frames on or off |
+| `--orbit-press` | `0.97` | `0.97` | `0.96` | Scale while pressing |
+
+### Your own preset
+
+```css
+/* A calmer holo: glow and frames, but no scans or energy */
+[data-orbit-mode="calm-holo"] {
+  --orbit-duration: 260ms;
+  --orbit-glow: 0.35;
+  --orbit-depth: 0.5;
+  --orbit-holo: 1;
+  --orbit-ambient: 1;
+  --orbit-scan: 0;
+  --orbit-energy: 0;
+}
+```
+
+```html
+<div data-orbit-mode="calm-holo">...</div>
+```
+
+In React, use `mode="custom"` with `effects` and `motion`, or put the attribute on any wrapper.
+
+`--oui-glow` from version 0.2 still works and maps to `--orbit-glow`. It will be removed in 1.0.
+
+## Accessibility and performance
+
+- When the operating system asks for **reduced motion**, the engine sets duration to `0ms` and turns off scan, energy, ambient and press effects. This wins over props. Static glow and depth stay, because they are not motion.
+- Effects are drawn on pseudo elements and animate `opacity` and `transform`, which the browser can run on the GPU.
+- An effect set to `0` does not run at all: its animation gets a duration of `0s`.
+- JavaScript is only used where CSS cannot know something: the press point of a button and the pointer position over a card. Both write CSS variables directly, without React re-renders, and the card batches pointer moves into one animation frame.
+- No animation libraries, no timers, no global listeners.

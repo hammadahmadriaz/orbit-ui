@@ -39,8 +39,8 @@
   border-radius: var(--radius-selector);
   background-color: color-mix(in oklch, var(--color-base-content) 12%, transparent);
   color: var(--progress-color, var(--color-primary));
-  box-shadow: 0 0 calc(var(--oui-glow) * 10px)
-    color-mix(in oklch, currentColor calc(var(--oui-glow) * 45%), transparent);
+  box-shadow: 0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 10px)
+    color-mix(in oklch, currentColor calc(var(--orbit-glow, var(--oui-glow, 0)) * 45%), transparent);
 
   &::-webkit-progress-bar {
     background-color: transparent;
@@ -117,8 +117,8 @@
       #000 calc(100% - var(--thickness, calc(var(--size, 4rem) * 0.1)))
     );
     filter: drop-shadow(
-      0 0 calc(var(--oui-glow) * 6px)
-        color-mix(in oklch, currentColor calc(var(--oui-glow) * 70%), transparent)
+      0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 6px)
+        color-mix(in oklch, currentColor calc(var(--orbit-glow, var(--oui-glow, 0)) * 70%), transparent)
     );
   }
 }

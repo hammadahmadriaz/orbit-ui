@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Status | Proposed, waiting for approval |
+| Status | Accepted. Step 1 and group A implemented in 0.3.0 |
 | Author | Orbit UI maintainers |
 | Target version | `@orbitdesign/ui` 0.3.0 (minor, no breaking changes) |
 | Scope | Audit of the current library, interaction engine architecture, component behaviour specs, rollout plan |
@@ -11,7 +11,7 @@
 
 ## 1. Summary
 
-Orbit UI today is a styled component library with one futuristic theme (`hud`). This RFC turns it into a library with an **interaction engine**: a small, CSS-first system that controls how every component moves, lights up and reacts, with four modes (`standard`, `enhanced`, `jarvis`, `custom`) that can be set globally, per component type, or per instance.
+Orbit UI today is a styled component library with one futuristic theme (`hud`). This RFC turns it into a library with an **interaction engine**: a small, CSS-first system that controls how every component moves, lights up and reacts, with four modes (`standard`, `enhanced`, `holo`, `custom`) that can be set globally, per component type, or per instance.
 
 The engine is mostly CSS custom properties and attribute selectors. JavaScript is used only for five interactions that need it (pointer position, measured indicators, timers, scroll lock, Escape handling). It adds no runtime dependency and works with server rendering.
 
@@ -97,7 +97,7 @@ apps/docs              Next.js 16 + Fumadocs, static export to GitHub Pages
 ### 2.5 Performance findings
 
 1. `hud-scan`, `animate-glitch`, `animate-float`, striped and indeterminate progress run `infinite` animations even when off screen. They animate `transform` and `background-position`; the first is cheap, the second repaints. Fix: pause with `animation-play-state` when the element is hidden, and use `transform` based stripes.
-2. Modal backdrop uses `backdrop-filter: blur()`, which is expensive on low end devices. Fix: only in `enhanced` and `jarvis` modes, and disabled under `prefers-reduced-transparency`.
+2. Modal backdrop uses `backdrop-filter: blur()`, which is expensive on low end devices. Fix: only in `enhanced` and `holo` modes, and disabled under `prefers-reduced-transparency`.
 3. Glow is a `box-shadow` that transitions on hover. Box shadow transitions repaint. Fix: draw glow on a pseudo-element and animate its `opacity` (compositor only).
 4. No JavaScript animation loops exist today. Keep it that way: the engine uses `requestAnimationFrame` only while the pointer is moving over an interactive card, and stops immediately.
 
@@ -126,7 +126,7 @@ apps/docs              Next.js 16 + Fumadocs, static export to GitHub Pages
 
 - Renaming classes (for example `btn` to `orbit-button`) would break every user. **Not proposed.** Existing classes stay.
 - Changing default visuals of `light`, `dark`, `corporate`, `forest` would surprise users. **Default mode is `standard`, which renders exactly like 0.2.0.**
-- `hud` theme users currently get glow automatically. The `hud` theme will default to `jarvis` mode, so they get the same or richer behaviour.
+- `hud` theme users currently get glow automatically. The `hud` theme will default to `holo` mode, so they get the same or richer behaviour.
 
 ---
 
@@ -146,13 +146,13 @@ apps/docs              Next.js 16 + Fumadocs, static export to GitHub Pages
 | --- | --- | --- | --- |
 | `standard` | 120ms, simple ease | color changes only | none |
 | `enhanced` | 180ms, smooth ease out | lift, depth shadow, press scale | depth, soft focus ring animation |
-| `jarvis` | 220ms, custom curve | component specific (see section 4) | glow, scan, energy, ambient light, holographic layers |
+| `holo` | 220ms, custom curve | component specific (see section 4) | glow, scan, energy, ambient light, holographic layers |
 | `custom` | developer defined | developer defined | each effect toggled and tuned individually |
 
 Set a mode anywhere in the tree, like a theme:
 
 ```html
-<html data-theme="dark" data-orbit-mode="jarvis">
+<html data-theme="dark" data-orbit-mode="holo">
   <section data-orbit-mode="standard">calm area inside a jarvis page</section>
 </html>
 ```
@@ -161,7 +161,7 @@ Set a mode anywhere in the tree, like a theme:
 
 These are the only engine variables users need to know. Every one gets documented.
 
-| Variable | Type | standard | enhanced | jarvis | Meaning |
+| Variable | Type | standard | enhanced | holo | Meaning |
 | --- | --- | --- | --- | --- | --- |
 | `--orbit-duration` | time | 120ms | 180ms | 220ms | base transition time |
 | `--orbit-ease` | easing | ease | cubic-bezier(.2,.8,.2,1) | cubic-bezier(.16,1,.3,1) | base easing |
@@ -184,7 +184,7 @@ Under `prefers-reduced-motion: reduce`, the engine forces `--orbit-duration: 0ms
 import { OrbitProvider, Button } from "@orbitdesign/ui/react";
 
 <OrbitProvider
-  mode="jarvis"                       // global
+  mode="holo"                       // global
   theme="dark"                        // optional, sets data-theme
   effects={{ glow: 0.5, scan: false }}
   motion={{ duration: 200 }}
@@ -193,14 +193,14 @@ import { OrbitProvider, Button } from "@orbitdesign/ui/react";
     Card: { effects: { holo: true } },
   }}
 >
-  <Button mode="jarvis" glow={0.8}>Engage</Button>   {/* per instance */}
+  <Button mode="holo" glow={0.8}>Engage</Button>   {/* per instance */}
 </OrbitProvider>
 ```
 
 Shared, strongly typed props (only on components where they mean something):
 
 ```ts
-type OrbitMode = "standard" | "enhanced" | "jarvis" | "custom";
+type OrbitMode = "standard" | "enhanced" | "holo" | "custom";
 
 interface OrbitEffects {
   glow?: boolean | number;   // number = intensity 0..1
@@ -260,20 +260,20 @@ Everything else, including glow, scan, energy lines, holographic layers and entr
 
 ```
 src/css/engine.css          tokens per mode, reduced motion rules, shared effect layers
-src/css/components/*.css    each component reads engine tokens and adds its own jarvis behaviour
+src/css/components/*.css    each component reads engine tokens and adds its own holo behaviour
 ```
 
-Component jarvis behaviour is written with zero specificity selectors so users can always override it:
+Component holo behaviour is written with zero specificity selectors so users can always override it:
 
 ```css
-:where([data-orbit-mode="jarvis"]) .btn::after { /* scanning border */ }
+:where([data-orbit-mode="holo"]) .btn::after { /* scanning border */ }
 ```
 
 Effect layers use pseudo-elements and animate only `opacity` and `transform`.
 
 ---
 
-## 4. Component behaviour specs (jarvis mode)
+## 4. Component behaviour specs (holo mode)
 
 Each component gets its own personality. No component simply "glows".
 
@@ -289,7 +289,7 @@ Each component gets its own personality. No component simply "glows".
 | **Toast / Alert** | Transmission: toast enters with a scan line from the top, shows a thin countdown bar, pauses on hover and focus. Alert gets `dismissible` and a short decode in on mount. |
 | **Progress** | Energy flow: the bar has a moving highlight at the leading edge, radial gauge gets tick marks; new `showValue` and `label`. |
 | **Spinner** | New styles: `orbit` (existing), `pulse`, `bars`, `ring`; `speed` prop; reduced motion shows a static segmented ring with a slow opacity pulse. |
-| **Avatar** | Presence: `status="online" \| "busy" \| "away" \| "offline"` dot with a soft breathing halo in jarvis; skeleton shimmer while the image loads. |
+| **Avatar** | Presence: `status="online" \| "busy" \| "away" \| "offline"` dot with a soft breathing halo in holo; skeleton shimmer while the image loads. |
 | **Badge** | Signal: `pulse` prop for live states, `dot` variant. |
 | **Tooltip** | Readout: appears with a 1 line "type in" reveal, `delay` prop, Escape dismiss. |
 
@@ -350,8 +350,8 @@ Each step ends with a report: what changed, files, new APIs, tests run, build st
 
 ---
 
-## 9. Open decisions
+## 9. Decisions
 
-1. **Public name of the futuristic mode.** "J.A.R.V.I.S." is a Marvel character name. Using `mode="jarvis"` as a public API value in an npm package carries trademark risk and could force a rename later. Options: keep `jarvis`, or use an original name such as `holo` or `nexus`. Internally and in marketing we can still say "inspired by futuristic film interfaces".
-2. **Mode and theme coupling.** Proposed: fully independent, and the `hud` theme defaults to the futuristic mode.
-3. **Approval of this plan** and the group order in section 8.
+1. The futuristic mode is called **`holo`** (original name, no trademark risk). Docs and marketing may say it is inspired by film HUD interfaces.
+2. Modes and themes are independent. The `hud` theme uses `holo` unless a mode is set.
+3. Plan approved. Implementation follows the steps in section 8.

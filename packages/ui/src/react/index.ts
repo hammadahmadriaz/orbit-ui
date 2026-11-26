@@ -1,4 +1,19 @@
 export { cx, Slot, type Color, type Size } from "./utils";
+export {
+  OrbitProvider,
+  useOrbit,
+  useOrbitConfig,
+  orbitVars,
+  prefersReducedMotion,
+  type OrbitMode,
+  type OrbitEffects,
+  type OrbitMotion,
+  type OrbitConfig,
+  type OrbitComponentConfig,
+  type OrbitComponentName,
+  type OrbitProviderProps,
+  type InteractionProps,
+} from "./engine";
 
 /* components:start (kept sorted by scripts/new-component.mjs) */
 export * from "./components/alert";

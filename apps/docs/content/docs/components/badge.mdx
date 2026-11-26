@@ -66,6 +66,37 @@ import { Badge } from "@orbitdesign/ui/react";
 </Tab>
 </Tabs>
 
+## Live status
+
+<Preview>
+  <Badge color="success" variant="soft" dot pulse>Online</Badge>
+  <Badge color="error" dot pulse>Recording</Badge>
+  <Badge color="warning" variant="outline" dot>Away</Badge>
+  <Badge dot>Offline</Badge>
+</Preview>
+
+<Tabs items={["React", "HTML"]}>
+<Tab value="React">
+
+```tsx
+<Badge color="success" variant="soft" dot pulse>Online</Badge>
+<Badge color="error" dot pulse>Recording</Badge>
+<Badge color="warning" variant="outline" dot>Away</Badge>
+```
+
+</Tab>
+<Tab value="HTML">
+
+```html
+<span class="badge badge-success badge-soft badge-dot badge-pulse">Online</span>
+<span class="badge badge-error badge-dot badge-pulse">Recording</span>
+```
+
+</Tab>
+</Tabs>
+
+`pulse` sends a ring out from the badge, for things that are live right now. It stays still for users who prefer reduced motion. In holo mode, badges and their dots glow in their color.
+
 ## Sizes
 
 <Preview>
@@ -87,6 +118,9 @@ import { Badge } from "@orbitdesign/ui/react";
     color: { type: '"primary" | "secondary" | "accent" | "neutral" | "info" | "success" | "warning" | "error"' },
     variant: { type: '"solid" | "soft" | "outline"', default: '"solid"' },
     size: { type: '"sm" | "md" | "lg"', default: '"md"' },
+    dot: { type: "boolean", description: "Leading status dot." },
+    pulse: { type: "boolean", description: "Pulsing ring for live states." },
+    mode: { type: "OrbitMode", description: "Interaction mode. Also glow." },
   }}
 />
 
@@ -98,3 +132,5 @@ import { Badge } from "@orbitdesign/ui/react";
 | `badge-primary` ... `badge-error` | Color |
 | `badge-soft` `badge-outline` | Variant |
 | `badge-sm` `badge-md` `badge-lg` | Size |
+| `badge-dot` | Leading status dot |
+| `badge-pulse` | Pulsing ring |

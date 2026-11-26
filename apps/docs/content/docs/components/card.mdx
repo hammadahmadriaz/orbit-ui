@@ -87,6 +87,59 @@ import { Button, Card, CardActions, CardBody, CardDescription, CardTitle } from 
 <Card flat>...</Card>
 ```
 
+## Elevation
+
+<Preview>
+  <Card elevation={0} className="w-36"><CardBody><CardTitle as="div">0</CardTitle></CardBody></Card>
+  <Card elevation={1} className="w-36"><CardBody><CardTitle as="div">1</CardTitle></CardBody></Card>
+  <Card elevation={2} className="w-36"><CardBody><CardTitle as="div">2</CardTitle></CardBody></Card>
+  <Card elevation={3} className="w-36"><CardBody><CardTitle as="div">3</CardTitle></CardBody></Card>
+</Preview>
+
+```tsx
+<Card elevation={0} />  {/* same as flat */}
+<Card elevation={3} />
+```
+
+## Holographic surface
+
+In holo mode a card becomes a holographic surface. Move your pointer over these cards.
+
+<ModeCompare>
+  <Card interactive className="w-52">
+    <CardBody>
+      <CardTitle as="div">Interactive</CardTitle>
+      <CardDescription>Lifts, tilts and follows the light.</CardDescription>
+    </CardBody>
+  </Card>
+  <Card framed className="w-52">
+    <CardBody>
+      <CardTitle as="div">Framed</CardTitle>
+      <CardDescription>Corner indicators always on.</CardDescription>
+    </CardBody>
+  </Card>
+</ModeCompare>
+
+- **Ambient light**: a soft light follows the pointer across the surface.
+- **Corner indicators**: HUD brackets lock onto the corners on hover. Use `framed` to keep them visible.
+- **Tilt**: `interactive` cards tilt up to 3 degrees toward the pointer.
+- **Depth**: `interactive` cards lift on hover in enhanced and holo mode.
+
+```tsx
+<Card interactive onClick={open}>...</Card>
+<Card framed mode="holo">...</Card>
+<Card interactive effects={{ ambient: false }}>Lift only, no light or tilt</Card>
+```
+
+```html
+<div data-orbit-mode="holo">
+  <div class="card card-interactive" tabindex="0">...</div>
+  <div class="card card-framed">...</div>
+</div>
+```
+
+The pointer light needs the React component (it reads the pointer position). With plain HTML, the light stays at the top center.
+
 ## Props
 
 <TypeTable
@@ -94,10 +147,17 @@ import { Button, Card, CardActions, CardBody, CardDescription, CardTitle } from 
     compact: { type: "boolean", description: "Smaller padding." },
     flat: { type: "boolean", description: "Removes the shadow." },
     side: { type: "boolean", description: "Media on the side instead of the top." },
+    elevation: { type: "0 | 1 | 2 | 3", default: "1", description: "Shadow depth." },
+    framed: { type: "boolean", description: "Always show HUD corner indicators." },
+    interactive: { type: "boolean", description: "Lift on hover, tilt toward the pointer in holo mode." },
+    radius: { type: "number | string", description: "Corner radius. Sets --card-radius." },
+    mode: { type: "OrbitMode", description: "Interaction mode. Also glow, effects (depth, ambient, holo), motion." },
   }}
 />
 
 Parts: `CardBody`, `CardTitle`, `CardDescription`, `CardActions`, `CardMedia`.
+
+`CardTitle` renders an `h3`. Use `as="h2"` (or h4 to h6, div) so it fits the heading order of your page.
 
 ## Classes
 
@@ -109,4 +169,21 @@ Parts: `CardBody`, `CardTitle`, `CardDescription`, `CardActions`, `CardMedia`.
 | `card-description` | Muted text |
 | `card-actions` | Row of buttons, aligned right |
 | `card-media` | Image or media |
-| `card-compact` `card-flat` `card-side` | Modifiers |
+| `card-compact` `card-side` | Modifiers |
+| `card-flat` `card-raised` `card-floating` | Elevation 0, 2, 3 |
+| `card-framed` | Always show corner indicators |
+| `card-interactive` | Lift and tilt |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--card-p` | `1.5rem` | Body padding |
+| `--card-radius` | `--radius-box` | Corner radius |
+| `--card-elevation` | `1` | Shadow depth, any number |
+
+## Accessibility
+
+- A clickable card needs a real action: put a link or button inside, or give the card `role`, `tabIndex={0}` and keyboard handling.
+- `interactive` shows a focus ring for keyboard users.
+- Tilt and pointer light are off for touch input and for users who prefer reduced motion.

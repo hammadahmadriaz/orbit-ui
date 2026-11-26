@@ -51,8 +51,8 @@
   color: var(--color-base-content);
   box-shadow:
     0 12px 32px oklch(0% 0 0 / 0.16),
-    0 0 calc(var(--oui-glow) * 20px)
-      color-mix(in oklch, var(--color-primary) calc(var(--oui-glow) * 22%), transparent);
+    0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 20px)
+      color-mix(in oklch, var(--color-primary) calc(var(--orbit-glow, var(--oui-glow, 0)) * 22%), transparent);
   transform-origin: var(--dd-origin, top left);
   animation: oui-dropdown-in 140ms ease-out;
 }
