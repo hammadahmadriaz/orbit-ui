@@ -14,7 +14,7 @@
     "release": "pnpm --filter @orbitdesign/ui build && changeset publish"
   },
   "devDependencies": {
-    "@changesets/cli": "^2.31.1",
+    "@changesets/cli": "^3.0.3",
     "turbo": "^2.11.13"
   },
   "pnpm": {
