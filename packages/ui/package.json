@@ -1,6 +1,6 @@
 {
   "name": "@orbitdesign/ui",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Tailwind CSS v4 component library with semantic classes, themes and React components.",
   "license": "MIT",
   "author": "Hammad Ahmed Riaz (https://hammadriaz.dev)",
