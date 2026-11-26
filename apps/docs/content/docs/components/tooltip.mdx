@@ -52,6 +52,27 @@ Or with rich content:
 </Tab>
 </Tabs>
 
+## Interaction modes
+
+Hover or Tab to each button.
+
+<ModeCompare>
+  <Tooltip content="Target acquired"><Button variant="outline">Scan</Button></Tooltip>
+</ModeCompare>
+
+- **Standard and enhanced**: fades and slides in.
+- **Holo**: a readout. The text is revealed from left to right in steps, like a system typing it, inside a thin accent frame.
+
+## Delay
+
+```tsx
+<Tooltip content="Appears after half a second" delay={500}>...</Tooltip>
+```
+
+```html
+<span class="tooltip [--tt-delay:500ms]" data-tip="Appears after half a second">...</span>
+```
+
 ## Colors
 
 <Preview>
@@ -85,6 +106,8 @@ Or with rich content:
     side: { type: '"top" | "bottom" | "left" | "right"', default: '"top"' },
     color: { type: '"primary" | "secondary" | "accent" | "info" | "success" | "warning" | "error"', description: "Default is neutral." },
     open: { type: "boolean", description: "Keep it visible." },
+    delay: { type: "number", default: "120", description: "Milliseconds before it appears." },
+    mode: { type: "OrbitMode", description: "Interaction mode. Also glow, effects (scan, holo), motion." },
     children: { type: "ReactElement", required: true, description: "A single element, usually a button." },
   }}
 />
@@ -98,3 +121,15 @@ Or with rich content:
 | `tooltip-top` `tooltip-bottom` `tooltip-left` `tooltip-right` | Position |
 | `tooltip-primary` ... `tooltip-error` | Color |
 | `tooltip-open` | Always visible |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--tt-delay` | `120ms` | Delay before showing |
+
+## Accessibility
+
+- Shows on hover and on keyboard focus. The trigger gets `aria-describedby`, so screen readers read the text.
+- **Escape** hides the tooltip, whether it was opened by hover or focus (WCAG 1.4.13). It stays hidden until the pointer leaves and focus moves away. Escape is not passed on, so a surrounding modal stays open.
+- Keep tooltip text short and do not put interactive content inside.

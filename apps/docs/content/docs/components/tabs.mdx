@@ -53,6 +53,21 @@ With plain HTML you switch tabs yourself by moving `aria-selected="true"` (or th
 </Tab>
 </Tabs>
 
+## Sliding indicator
+
+In React the active state is drawn by an indicator that slides from tab to tab, in every variant and every mode. Click between tabs to see it.
+
+<ModeCompare>
+  <OrbitTabs defaultValue="a" variant="line"><TabList aria-label="Line demo"><OrbitTab value="a">Status</OrbitTab><OrbitTab value="b">Logs</OrbitTab><OrbitTab value="c">Config</OrbitTab></TabList></OrbitTabs>
+  <OrbitTabs defaultValue="a" variant="pill"><TabList aria-label="Pill demo"><OrbitTab value="a">Status</OrbitTab><OrbitTab value="b">Logs</OrbitTab><OrbitTab value="c">Config</OrbitTab></TabList></OrbitTabs>
+</ModeCompare>
+
+- **Standard**: the indicator slides, panels switch instantly.
+- **Enhanced**: panels fade and rise in.
+- **Holo**: the line becomes an energy line with a bright head on its leading edge, and indicators glow.
+
+The indicator is measured once per change and on resize (one `ResizeObserver` per tab list). The movement itself is a CSS transition.
+
 ## Variants
 
 <Preview align="stack">
@@ -137,3 +152,21 @@ const [tab, setTab] = useState("overview");
 | `tabs-line` `tabs-boxed` `tabs-pill` | Variant |
 | `tabs-primary` `tabs-secondary` `tabs-accent` `tabs-neutral` | Color |
 | `tabs-sm` `tabs-md` `tabs-lg` | Size |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--tab-h` | `2.25rem` | Tab height (set by size classes) |
+| `--tab-px` | `0.875rem` | Horizontal padding |
+| `--tab-fs` | `0.875rem` | Font size |
+| `--tab-color` | primary | Active color (set by color classes) |
+
+`Tabs` also accepts `mode`, `glow`, `effects` and `motion`.
+
+## Accessibility
+
+- Follows the WAI-ARIA tabs pattern: `role="tablist"`, `tab` and `tabpanel` with `aria-selected`, `aria-controls` and `aria-labelledby`.
+- Only the active tab is in the Tab order. Arrow keys, Home and End move and select. Disabled tabs are skipped.
+- Give the `TabList` an `aria-label`.
+- The indicator is `aria-hidden`; panel animations are skipped with reduced motion.

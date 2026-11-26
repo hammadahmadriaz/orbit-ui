@@ -2,60 +2,130 @@
  * Modal (built on the native <dialog> element)
  * Classes: modal modal-header modal-title modal-description modal-body modal-actions modal-close
  * Sizes:   modal-sm modal-lg modal-full
+ * State:   data-state="closed" plays the exit animation (set by the React Modal)
+ * Vars:    --modal-w --modal-radius (public)
  *
  * Use dialog.showModal() to open. The browser handles focus trapping,
  * Escape to close and the top layer, so no JS library is needed.
  */
 
 @utility modal {
+  --_glow: var(--orbit-glow, var(--oui-glow, 0));
+  --_r: var(--modal-radius, var(--radius-box));
   width: calc(100% - 2rem);
   max-width: var(--modal-w, 32rem);
   max-height: calc(100dvh - 2rem);
   margin: auto;
   padding: 1.5rem;
   overflow-y: auto;
-  border: var(--oui-border) solid var(--color-base-300);
-  border-radius: var(--radius-box);
+  border: var(--oui-border) solid
+    color-mix(in oklch, var(--color-base-300), var(--color-primary) calc(var(--orbit-holo) * 40%));
+  border-radius: var(--_r);
   background-color: var(--color-base-100);
   color: var(--color-base-content);
-  box-shadow: 0 24px 64px oklch(0% 0 0 / 0.25);
-  opacity: 0;
-  transform: translateY(8px) scale(0.98);
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease,
-    overlay 180ms allow-discrete,
-    display 180ms allow-discrete;
+  box-shadow:
+    0 24px 64px oklch(0% 0 0 / 0.25),
+    0 0 calc(var(--_glow) * 48px) color-mix(in oklch, var(--color-primary) calc(var(--_glow) * 25%), transparent);
 
+  /* Opening. In holo the window starts as a point, becomes a line, then opens. */
   &[open] {
-    opacity: 1;
-    transform: none;
+    animation: orbit-modal-in calc(var(--orbit-duration) * (1.2 + var(--orbit-holo) * 0.8)) var(--orbit-ease) both;
   }
-  @starting-style {
-    &[open] {
-      opacity: 0;
-      transform: translateY(8px) scale(0.98);
-    }
+  /* Closing (set by the React Modal while the exit animation runs). */
+  &[data-state="closed"] {
+    animation: orbit-modal-out calc(var(--orbit-duration) * (0.9 + var(--orbit-holo) * 0.6)) var(--orbit-ease) both;
+  }
+
+  /* Holo: a light line along the top edge. */
+  &::before {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(90deg, transparent, var(--color-primary), transparent);
+    opacity: var(--orbit-holo);
+  }
+  /* Holo: one scan passes through the window after it opens. */
+  &::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    top: 0;
+    height: 100%;
+    pointer-events: none;
+    background: linear-gradient(transparent, color-mix(in oklch, var(--color-primary) 10%, transparent), transparent);
+    opacity: 0;
+  }
+  &[open]::after {
+    animation: orbit-modal-scan calc(var(--orbit-scan) * 800ms) ease-in-out calc(var(--orbit-duration) * 1.6);
   }
 
   &::backdrop {
-    background-color: oklch(0% 0 0 / 0);
-    backdrop-filter: blur(0);
-    transition:
-      background-color 180ms ease,
-      backdrop-filter 180ms ease,
-      overlay 180ms allow-discrete,
-      display 180ms allow-discrete;
-  }
-  &[open]::backdrop {
     background-color: oklch(0% 0 0 / 0.45);
+    /* Holo atmosphere: vignette and a faint grid. Both disappear when holo is 0. */
+    background-image:
+      radial-gradient(ellipse at center, transparent 35%, oklch(0% 0 0 / calc(var(--orbit-holo) * 0.45)) 100%),
+      linear-gradient(color-mix(in oklch, var(--color-primary) calc(var(--orbit-holo) * 7%), transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklch, var(--color-primary) calc(var(--orbit-holo) * 7%), transparent) 1px, transparent 1px);
+    background-size: auto, 32px 32px, 32px 32px;
     backdrop-filter: blur(2px);
   }
-  @starting-style {
-    &[open]::backdrop {
-      background-color: oklch(0% 0 0 / 0);
-      backdrop-filter: blur(0);
+  &[open]::backdrop {
+    animation: orbit-fade-in calc(var(--orbit-duration) * 1.4) ease both;
+  }
+  &[data-state="closed"]::backdrop {
+    animation: orbit-fade-out calc(var(--orbit-duration) * 1.2) ease both;
+  }
+  @media (prefers-reduced-transparency: reduce) {
+    &::backdrop {
+      backdrop-filter: none;
+      background-color: oklch(0% 0 0 / 0.6);
     }
+  }
+}
+
+@keyframes orbit-modal-in {
+  0% {
+    opacity: 0;
+    clip-path: inset(calc(var(--orbit-holo) * 49.5%) calc(var(--orbit-holo) * 50%) round var(--_r));
+    transform: translateY(calc((1 - var(--orbit-holo)) * 8px)) scale(calc(1 - (1 - var(--orbit-holo)) * 0.02));
+  }
+  35% {
+    opacity: 1;
+    clip-path: inset(calc(var(--orbit-holo) * 49.5%) 0 round var(--_r));
+  }
+  100% {
+    opacity: 1;
+    clip-path: inset(0 round var(--_r));
+    transform: none;
+  }
+}
+@keyframes orbit-modal-out {
+  0% {
+    opacity: 1;
+    clip-path: inset(0 round var(--_r));
+    transform: none;
+  }
+  60% {
+    opacity: 1;
+    clip-path: inset(calc(var(--orbit-holo) * 49.5%) 0 round var(--_r));
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(calc(var(--orbit-holo) * 49.5%) calc(var(--orbit-holo) * 50%) round var(--_r));
+    transform: translateY(calc((1 - var(--orbit-holo)) * 8px)) scale(calc(1 - (1 - var(--orbit-holo)) * 0.02));
+  }
+}
+@keyframes orbit-modal-scan {
+  from {
+    opacity: 1;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(100%);
   }
 }
 

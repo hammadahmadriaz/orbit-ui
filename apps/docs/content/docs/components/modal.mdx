@@ -72,6 +72,25 @@ A `<form method="dialog">` closes the dialog when any of its buttons is clicked,
 </Tab>
 </Tabs>
 
+## Interaction modes
+
+Open the modal in each mode.
+
+<ModeCompare>
+  <ModalDemo />
+</ModeCompare>
+
+- **Standard**: a short fade and slide.
+- **Enhanced**: the same with smoother easing.
+- **Holo**: a system window. It appears as a point, stretches into a line of light, then opens to full height. A single scan passes over the content, a light line runs along the top edge, and the page behind gets a vignette and a faint grid. Closing plays the same steps in reverse.
+
+```tsx
+<Modal open={open} onClose={close} mode="holo">...</Modal>
+<Modal open={open} onClose={close} mode="holo" effects={{ scan: false }}>No scan</Modal>
+```
+
+The React `Modal` waits for the exit animation before it closes the dialog, so closing is animated in every browser. With plain HTML, opening is animated and closing is instant.
+
 ## What the browser handles for you
 
 Because the modal is a real `<dialog>` opened with `showModal()`:
@@ -80,6 +99,8 @@ Because the modal is a real `<dialog>` opened with `showModal()`:
 - <kbd>Esc</kbd> closes it (the React component calls `onClose`)
 - It renders in the top layer, so no z-index problems
 - Focus goes back to the trigger when it closes
+
+Orbit UI adds **scroll lock**: the page behind cannot scroll while the modal is open, without the layout jumping when the scrollbar disappears. Nested modals keep the lock until the last one closes. Turn it off with `lockScroll={false}`.
 
 ## Sizes
 
@@ -99,6 +120,8 @@ Because the modal is a real `<dialog>` opened with `showModal()`:
     size: { type: '"sm" | "md" | "lg" | "full"', default: '"md"' },
     closeOnBackdrop: { type: "boolean", default: "true" },
     showClose: { type: "boolean", default: "true", description: "Show the X button in the corner." },
+    lockScroll: { type: "boolean", default: "true", description: "Stop the page behind from scrolling while open." },
+    mode: { type: "OrbitMode", description: "Interaction mode. Also glow, effects (scan, holo), motion." },
   }}
 />
 
@@ -112,3 +135,17 @@ Parts: `ModalHeader`, `ModalTitle`, `ModalDescription`, `ModalBody`, `ModalActio
 | `modal-header` `modal-title` `modal-description` `modal-body` `modal-actions` | Parts |
 | `modal-close` | Positions a close button in the corner |
 | `modal-sm` `modal-lg` `modal-full` | Width |
+
+## CSS variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--modal-w` | `32rem` | Maximum width (set by size classes) |
+| `--modal-radius` | `--radius-box` | Corner radius |
+
+## Accessibility
+
+- Uses `<dialog>` with `showModal()`: the rest of the page becomes inert, focus is trapped and returns to the trigger.
+- Give the modal a `ModalTitle` so it has an accessible name.
+- Escape closes the modal, unless a tooltip inside is open: then Escape closes the tooltip first.
+- All open and close animations are skipped when the user prefers reduced motion.

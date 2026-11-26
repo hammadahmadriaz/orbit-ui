@@ -246,14 +246,19 @@
 }
 
 /* Shapes */
+/* Padding is set directly (not through --btn-px) so size classes cannot add it back. */
 @utility btn-square {
-  --btn-px: 0;
+  && {
+    padding-inline: 0;
+  }
   width: var(--btn-h, 2.5rem);
 }
 @utility btn-circle {
-  --btn-px: 0;
+  && {
+    padding-inline: 0;
+    border-radius: 9999px;
+  }
   width: var(--btn-h, 2.5rem);
-  border-radius: 9999px;
 }
 @utility btn-block {
   width: 100%;
