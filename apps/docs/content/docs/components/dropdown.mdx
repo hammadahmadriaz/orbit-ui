@@ -66,6 +66,37 @@ No JavaScript needed, it uses `<details>`:
 </Tab>
 </Tabs>
 
+## Interaction modes
+
+<ModeCompare>
+  <Dropdown>
+    <DropdownTrigger variant="outline">Open menu</DropdownTrigger>
+    <DropdownMenu>
+      <DropdownItem shortcut="Ctrl+E">Edit</DropdownItem>
+      <DropdownItem shortcut="Ctrl+D">Duplicate</DropdownItem>
+      <DropdownSeparator />
+      <DropdownItem danger>Delete</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+</ModeCompare>
+
+- **Standard and enhanced**: the menu fades and slides in, and fades out when it closes.
+- **Holo**: the menu unfolds from the edge of the trigger like a targeting list. The highlighted row gets a glowing bracket on its left edge and a light sweep across it.
+
+```tsx
+<Dropdown mode="holo">...</Dropdown>
+```
+
+## Shortcuts and typeahead
+
+Show a shortcut hint with `shortcut`. It is visual only, so wire the real keyboard shortcut in your app.
+
+```tsx
+<DropdownItem shortcut="Ctrl+E" onSelect={edit}>Edit</DropdownItem>
+```
+
+While the menu is open, type the first letters of an item to jump to it. Pressing the same letter again moves to the next item that starts with it.
+
 ## Placement
 
 <Preview>
@@ -119,8 +150,11 @@ No JavaScript needed, it uses `<details>`:
     onSelect: { type: "() => void", description: "Called when chosen. The menu closes afterwards." },
     danger: { type: "boolean", description: "Red, for destructive actions." },
     disabled: { type: "boolean" },
+    shortcut: { type: "string", description: "Shortcut hint on the right. Display only." },
   }}
 />
+
+`Dropdown` also accepts `mode`, `glow`, `effects` and `motion`.
 
 ## Classes
 
@@ -134,3 +168,10 @@ No JavaScript needed, it uses `<details>`:
 | `menu-item-danger` | Destructive row |
 | `menu-label` | Small heading |
 | `menu-divider` | Separator line |
+| `menu-shortcut` | Shortcut hint |
+
+## Accessibility
+
+- The trigger has `aria-haspopup="menu"`, `aria-expanded` and `aria-controls`.
+- Opening moves focus to the first item. Arrow keys, Home, End and typeahead move between items. Escape closes and returns focus to the trigger. Tab closes the menu.
+- Items are `role="menuitem"` buttons, so Enter and Space choose them.

@@ -2,6 +2,7 @@
  * Tooltip (CSS only, shows on hover and keyboard focus)
  * Classes:   tooltip tooltip-content tooltip-open
  * Positions: tooltip-top (default) tooltip-bottom tooltip-left tooltip-right
+ * Vars:      --tt-delay (show delay, default 120ms)
  * Colors:    tooltip-primary tooltip-secondary tooltip-accent tooltip-info tooltip-success tooltip-warning tooltip-error
  *
  * Two ways to write it:
@@ -35,14 +36,20 @@
       0 4px 14px oklch(0% 0 0 / 0.18),
       0 0 calc(var(--orbit-glow, var(--oui-glow, 0)) * 12px)
         color-mix(in oklch, var(--tooltip-bg, var(--color-primary)) calc(var(--orbit-glow, var(--oui-glow, 0)) * 50%), transparent);
+    /* Holo: a thin accent border, the readout frame. */
+    outline: 1px solid color-mix(in oklch, var(--color-primary) calc(var(--orbit-holo) * 55%), transparent);
+    outline-offset: -1px;
     opacity: 0;
     visibility: hidden;
     transform: translate(var(--tt-x, -50%), var(--tt-y, 0))
       translate(var(--tt-ox, 0), var(--tt-oy, 4px));
+    /* Holo readout: the text is revealed left to right in steps, like typing. */
+    clip-path: inset(0 calc(var(--orbit-scan) * 100%) 0 0 round var(--radius-field));
     transition:
-      opacity 150ms ease,
-      transform 150ms ease,
-      visibility 150ms;
+      opacity var(--orbit-duration) var(--orbit-ease),
+      transform var(--orbit-duration) var(--orbit-ease),
+      visibility var(--orbit-duration),
+      clip-path calc(var(--orbit-duration) * 1.8) steps(14, end);
   }
   &[data-tip]::after {
     content: attr(data-tip);
@@ -57,7 +64,16 @@
     opacity: 1;
     visibility: visible;
     transform: translate(var(--tt-x, -50%), var(--tt-y, 0));
+    clip-path: inset(0 0 0 0 round var(--radius-field));
     transition-delay: var(--tt-delay, 120ms);
+  }
+
+  /* Dismissed with Escape (React Tooltip): hidden until hover and focus end. */
+  &&.tooltip-dismissed > .tooltip-content,
+  &&.tooltip-dismissed[data-tip]::after {
+    opacity: 0;
+    visibility: hidden;
+    transition-delay: 0s;
   }
 }
 

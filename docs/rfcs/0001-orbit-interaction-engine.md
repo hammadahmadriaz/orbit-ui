@@ -2,7 +2,7 @@
 
 | | |
 | --- | --- |
-| Status | Accepted. Step 1 and group A implemented in 0.3.0 |
+| Status | Accepted. Step 1, group A and group B implemented |
 | Author | Orbit UI maintainers |
 | Target version | `@orbitdesign/ui` 0.3.0 (minor, no breaking changes) |
 | Scope | Audit of the current library, interaction engine architecture, component behaviour specs, rollout plan |

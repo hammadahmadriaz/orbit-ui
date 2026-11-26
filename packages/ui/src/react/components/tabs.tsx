@@ -1,5 +1,7 @@
 import * as React from "react";
-import { cx } from "../utils";
+import { cx, mergeRefs } from "../utils";
+import { useOrbit, type InteractionProps } from "../engine";
+import { useIsomorphicLayoutEffect } from "../internal";
 
 const variants = { line: "tabs-line", boxed: "tabs-boxed", pill: "tabs-pill" } as const;
 const colors = {
@@ -29,7 +31,7 @@ function useTabs(component: string) {
 
 const safe = (v: string) => v.replace(/[^a-zA-Z0-9_-]/g, "_");
 
-export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange"> {
+export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "defaultValue" | "onChange">, InteractionProps {
   /** Selected tab (controlled). */
   value?: string;
   /** Initially selected tab (uncontrolled). */
@@ -41,9 +43,10 @@ export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, "d
 }
 
 export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
-  { value, defaultValue = "", onValueChange, variant = "line", color, size, className, children, ...props },
+  { value, defaultValue = "", onValueChange, variant = "line", color, size, className, children, ...input },
   ref,
 ) {
+  const { orbitProps, rest: props } = useOrbit("Tabs", input);
   const [inner, setInner] = React.useState(defaultValue);
   const current = value ?? inner;
   const baseId = `oui-tabs-${React.useId().replace(/:/g, "")}`;
@@ -58,7 +61,7 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 
   return (
     <TabsContext.Provider value={{ value: current, select, baseId, variant, color, size }}>
-      <div ref={ref} className={className} {...props}>
+      <div ref={ref} className={className} {...orbitProps} {...props}>
         {children}
       </div>
     </TabsContext.Provider>
@@ -66,8 +69,38 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 });
 
 export const TabList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  function TabList({ className, onKeyDown, ...props }, ref) {
-    const { variant, color, size } = useTabs("TabList");
+  function TabList({ className, onKeyDown, children, ...props }, ref) {
+    const { value, variant, color, size } = useTabs("TabList");
+    const listRef = React.useRef<HTMLDivElement | null>(null);
+
+    // Move the indicator to the active tab: one layout read, two CSS variable writes.
+    const measure = React.useCallback(() => {
+      const list = listRef.current;
+      if (!list) return;
+      const active = list.querySelector<HTMLElement>('[role="tab"][aria-selected="true"]');
+      list.style.setProperty("--tab-ready", active ? "1" : "0");
+      if (!active) return;
+      list.style.setProperty("--tab-x", `${active.offsetLeft}px`);
+      list.style.setProperty("--tab-w", `${active.offsetWidth}px`);
+    }, []);
+
+    useIsomorphicLayoutEffect(() => {
+      measure();
+      const list = listRef.current;
+      // Turn on the slide transition only after the first position is set.
+      if (list && !list.hasAttribute("data-indicator")) {
+        const id = requestAnimationFrame(() => list.setAttribute("data-indicator", ""));
+        return () => cancelAnimationFrame(id);
+      }
+    }, [value, measure]);
+
+    React.useEffect(() => {
+      const list = listRef.current;
+      if (!list || typeof ResizeObserver === "undefined") return;
+      const observer = new ResizeObserver(measure);
+      observer.observe(list);
+      return () => observer.disconnect();
+    }, [measure]);
 
     // Arrow keys, Home and End move between tabs (WAI-ARIA tabs pattern).
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -90,12 +123,21 @@ export const TabList = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTM
 
     return (
       <div
-        ref={ref}
+        ref={mergeRefs(ref, listRef)}
         role="tablist"
-        className={cx("tabs", variants[variant], color && colors[color], size && sizes[size], className)}
+        className={cx(
+          "tabs tabs-animated",
+          variants[variant],
+          color && colors[color],
+          size && sizes[size],
+          className,
+        )}
         onKeyDown={handleKeyDown}
         {...props}
-      />
+      >
+        {children}
+        <span className="tabs-indicator" aria-hidden="true" />
+      </div>
     );
   },
 );
