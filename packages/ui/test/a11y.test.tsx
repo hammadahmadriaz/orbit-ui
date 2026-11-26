@@ -22,6 +22,14 @@ import {
   Tabs,
   Toggle,
   Tooltip,
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+  Modal,
+  ModalBody,
+  ModalHeader,
+  ModalTitle,
   type OrbitMode,
 } from "../src/react";
 
@@ -68,6 +76,19 @@ function Showcase({ mode }: { mode: OrbitMode }) {
           </TabList>
           <TabPanel value="a">Panel A</TabPanel>
         </Tabs>
+        <Dropdown defaultOpen>
+          <DropdownTrigger>Options</DropdownTrigger>
+          <DropdownMenu>
+            <DropdownItem shortcut="Ctrl+E">Edit</DropdownItem>
+            <DropdownItem danger>Delete</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+        <Modal open onClose={() => {}} lockScroll={false}>
+          <ModalHeader>
+            <ModalTitle>Window</ModalTitle>
+          </ModalHeader>
+          <ModalBody>Content</ModalBody>
+        </Modal>
       </main>
     </OrbitProvider>
   );

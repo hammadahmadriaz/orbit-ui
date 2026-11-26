@@ -137,3 +137,13 @@
     transform: translateX(-4px);
   }
 }
+@keyframes orbit-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes orbit-fade-out {
+  to {
+    opacity: 0;
+  }
+}

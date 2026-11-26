@@ -1,9 +1,11 @@
 import * as React from "react";
 import { cx, mergeRefs } from "../utils";
+import { useOrbit, type InteractionProps } from "../engine";
+import { animationMs, lockScroll, unlockScroll } from "../internal";
 
 const sizes = { sm: "modal-sm", md: "", lg: "modal-lg", full: "modal-full" } as const;
 
-export interface ModalProps extends Omit<React.DialogHTMLAttributes<HTMLDialogElement>, "open"> {
+export interface ModalProps extends Omit<React.DialogHTMLAttributes<HTMLDialogElement>, "open">, InteractionProps {
   open: boolean;
   onClose: () => void;
   size?: keyof typeof sizes;
@@ -11,6 +13,8 @@ export interface ModalProps extends Omit<React.DialogHTMLAttributes<HTMLDialogEl
   closeOnBackdrop?: boolean;
   /** Show the X button in the corner. Default true. */
   showClose?: boolean;
+  /** Stop the page behind from scrolling while open. Default true. */
+  lockScroll?: boolean;
 }
 
 /**
@@ -18,22 +22,58 @@ export interface ModalProps extends Omit<React.DialogHTMLAttributes<HTMLDialogEl
  * The browser handles focus trapping, Escape and stacking.
  */
 export const Modal = React.forwardRef<HTMLDialogElement, ModalProps>(function Modal(
-  { open, onClose, size = "md", closeOnBackdrop = true, showClose = true, className, children, onClick, onCancel, ...props },
+  {
+    open,
+    onClose,
+    size = "md",
+    closeOnBackdrop = true,
+    showClose = true,
+    lockScroll: shouldLock = true,
+    className,
+    children,
+    onClick,
+    onCancel,
+    ...input
+  },
   ref,
 ) {
   const innerRef = React.useRef<HTMLDialogElement>(null);
+  const { orbitProps, rest: props } = useOrbit("Modal", input);
 
   React.useEffect(() => {
     const dialog = innerRef.current;
     if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal?.();
-    if (!open && dialog.open) dialog.close?.();
-  }, [open]);
+
+    if (open) {
+      dialog.removeAttribute("data-state");
+      if (!dialog.open) dialog.showModal?.();
+      if (shouldLock) lockScroll();
+      return () => {
+        if (shouldLock) unlockScroll();
+      };
+    }
+
+    if (dialog.open) {
+      // Play the exit animation, then close. Instant when there is none.
+      dialog.setAttribute("data-state", "closed");
+      const finish = () => {
+        dialog.close?.();
+        dialog.removeAttribute("data-state");
+      };
+      const ms = animationMs(dialog);
+      if (ms <= 0) finish();
+      else {
+        const timer = setTimeout(finish, ms);
+        return () => clearTimeout(timer);
+      }
+    }
+  }, [open, shouldLock]);
 
   return (
     <dialog
       ref={mergeRefs(ref, innerRef)}
       className={cx("modal", sizes[size], className)}
+      {...orbitProps}
       onCancel={(e) => {
         onCancel?.(e);
         e.preventDefault();

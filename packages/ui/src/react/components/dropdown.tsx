@@ -1,6 +1,8 @@
 import * as React from "react";
 import { cx } from "../utils";
 import { Button, type ButtonProps } from "./button";
+import { useOrbit, type InteractionProps } from "../engine";
+import { usePresence } from "../internal";
 
 interface DropdownContextValue {
   open: boolean;
@@ -17,7 +19,7 @@ function useDropdown(component: string) {
   return ctx;
 }
 
-export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement>, InteractionProps {
   /** Controlled open state. */
   open?: boolean;
   defaultOpen?: boolean;
@@ -29,9 +31,10 @@ export interface DropdownProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function Dropdown(
-  { open, defaultOpen = false, onOpenChange, align = "start", side = "bottom", className, children, ...props },
+  { open, defaultOpen = false, onOpenChange, align = "start", side = "bottom", className, children, ...input },
   ref,
 ) {
+  const { orbitProps, rest: props } = useOrbit("Dropdown", input);
   const [inner, setInner] = React.useState(defaultOpen);
   const isOpen = open ?? inner;
   const rootRef = React.useRef<HTMLDivElement | null>(null);
@@ -75,6 +78,7 @@ export const Dropdown = React.forwardRef<HTMLDivElement, DropdownProps>(function
           else if (ref) ref.current = node;
         }}
         className={cx("dropdown", align === "end" && "dropdown-end", side === "top" && "dropdown-top", className)}
+        {...orbitProps}
         {...props}
       >
         {children}
@@ -112,6 +116,8 @@ export const DropdownMenu = React.forwardRef<HTMLDivElement, React.HTMLAttribute
   function DropdownMenu({ className, onKeyDown, ...props }, ref) {
     const { open, setOpen, menuId } = useDropdown("DropdownMenu");
     const menuRef = React.useRef<HTMLDivElement | null>(null);
+    const { mounted, state } = usePresence(open, menuRef);
+    const typeahead = React.useRef({ text: "", time: 0 });
 
     const items = () =>
       Array.from(menuRef.current?.querySelectorAll<HTMLElement>('[role="menuitem"]:not(:disabled)') ?? []);
@@ -120,7 +126,23 @@ export const DropdownMenu = React.forwardRef<HTMLDivElement, React.HTMLAttribute
       if (open) items()[0]?.focus();
     }, [open]);
 
-    if (!open) return null;
+    if (!mounted) return null;
+
+    // Jump to the next item that starts with the typed letters.
+    const handleTypeahead = (key: string) => {
+      const now = Date.now();
+      const t = typeahead.current;
+      t.text = now - t.time > 600 ? key : t.text + key;
+      t.time = now;
+      const list = items();
+      const start = list.indexOf(document.activeElement as HTMLElement);
+      // Pressing the same letter again cycles through items with that letter.
+      const repeated = t.text.length > 1 && t.text.split("").every((c) => c === t.text[0]);
+      const query = (repeated ? t.text[0] : t.text).toLowerCase();
+      const cycle = t.text.length === 1 || repeated;
+      const ordered = cycle ? [...list.slice(start + 1), ...list.slice(0, start + 1)] : list;
+      ordered.find((el) => (el.textContent ?? "").trim().toLowerCase().startsWith(query))?.focus();
+    };
 
     return (
       <div
@@ -131,6 +153,7 @@ export const DropdownMenu = React.forwardRef<HTMLDivElement, React.HTMLAttribute
         }}
         id={menuId}
         role="menu"
+        data-state={state}
         className={cx("dropdown-content menu", className)}
         onKeyDown={(e) => {
           onKeyDown?.(e);
@@ -141,6 +164,7 @@ export const DropdownMenu = React.forwardRef<HTMLDivElement, React.HTMLAttribute
           else if (e.key === "Home") list[0]?.focus();
           else if (e.key === "End") list[list.length - 1]?.focus();
           else if (e.key === "Tab") setOpen(false);
+          else if (e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey && e.key !== " ") handleTypeahead(e.key);
           else return;
           if (e.key !== "Tab") e.preventDefault();
         }}
@@ -155,10 +179,12 @@ export interface DropdownItemProps extends React.ButtonHTMLAttributes<HTMLButton
   onSelect?: () => void;
   /** Red, for destructive actions. */
   danger?: boolean;
+  /** Keyboard shortcut hint shown on the right, e.g. "Ctrl+D". Display only. */
+  shortcut?: string;
 }
 
 export const DropdownItem = React.forwardRef<HTMLButtonElement, DropdownItemProps>(function DropdownItem(
-  { onSelect, danger, className, onClick, ...props },
+  { onSelect, danger, shortcut, className, onClick, children, ...props },
   ref,
 ) {
   const { setOpen, triggerRef } = useDropdown("DropdownItem");
@@ -177,7 +203,14 @@ export const DropdownItem = React.forwardRef<HTMLButtonElement, DropdownItemProp
         triggerRef.current?.focus();
       }}
       {...props}
-    />
+    >
+      {children}
+      {shortcut && (
+        <span className="menu-shortcut" aria-hidden="true">
+          {shortcut}
+        </span>
+      )}
+    </button>
   );
 });
 
