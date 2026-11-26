@@ -153,7 +153,7 @@ Set a mode anywhere in the tree, like a theme:
 
 ```html
 <html data-theme="dark" data-orbit-mode="holo">
-  <section data-orbit-mode="standard">calm area inside a jarvis page</section>
+  <section data-orbit-mode="standard">calm area inside a holo page</section>
 </html>
 ```
 
@@ -316,7 +316,7 @@ Every public variable is listed in a "CSS variables" table on its component page
 
 ## 6. Documentation and playground
 
-- Every component page: a mode switcher (standard, enhanced, jarvis) next to the existing theme switcher in each preview, plus sections for variants, sizes, props, HTML, custom styling, CSS variables, interaction config and accessibility.
+- Every component page: a mode switcher (standard, enhanced, holo) next to the existing theme switcher in each preview, plus sections for variants, sizes, props, HTML, custom styling, CSS variables, interaction config and accessibility.
 - New `/playground` page built with the real components: pick component, mode, theme, variant, size, glow, speed, radius, toggle each effect, and copy the generated React and CSS.
 
 ---
